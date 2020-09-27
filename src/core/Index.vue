@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { markRaw } from '@vue/reactivity';
+import {markRaw} from '@vue/reactivity';
 
 const DefaultComponent = 'app-default-view';
 
@@ -54,7 +54,9 @@ export default {
 
       if (this.isComponentRegistered(name) && name !== current) {
         window.history.pushState({ component: component.name }, document.title, '#' + component.name);
-      } else {
+      }
+
+      if (!this.isComponentRegistered(name)) {
         window.history.pushState({ component: component.name }, document.title, '#');
       }
 

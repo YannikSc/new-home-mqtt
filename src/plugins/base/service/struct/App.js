@@ -16,8 +16,8 @@ export default class App {
 
     /**
      * @param {string} displayName
-     * @param {Component} icon
-     * @param {Component} contentComponent
+     * @param {Component|{name: string}} icon
+     * @param {Component|{name: string}} contentComponent
      */
     constructor(displayName, icon, contentComponent) {
         this.displayName = displayName;

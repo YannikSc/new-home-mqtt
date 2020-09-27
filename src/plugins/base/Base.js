@@ -7,8 +7,17 @@ import AppListingView from './components/views/AppListingView.vue';
 import Translation from './service/Translation';
 import Strings from './Strings';
 import App from './service/struct/App';
-import { Cog } from 'mdue';
+import { Cog, Apps } from 'mdue';
 import { Translate } from './service/Translation.js';
+import AppSettingsView from './components/views/AppSettingsView.vue';
+
+/**
+ * @param {AppManager} apps
+ */
+function addApps(apps) {
+    apps.add(new App(Translate('app.settings.title'), Cog, AppSettingsView));
+    apps.add(new App(Translate('menu.title_apps'), Apps, AppListingView));
+}
 
 export default {
     /**
@@ -17,16 +26,9 @@ export default {
     install(app) {
         Strings(Translation);
 
+        addApps(AppManager);
         app.provide('translation', Translation);
         app.provide('apps', AppManager);
-
-        AppManager.add(new App(Translate('app.settings.title'), Cog, Cog));
-        AppManager.add(new App(Translate('app.settings.title'), Cog, AppListingView));
-        AppManager.add(new App(Translate('app.settings.title'), Cog, Cog));
-        AppManager.add(new App(Translate('app.settings.title'), Cog, Cog));
-        AppManager.add(new App(Translate('app.settings.title'), Cog, Cog));
-        AppManager.add(new App(Translate('app.settings.title'), Cog, Cog));
-        AppManager.add(new App(Translate('app.settings.title'), Cog, Cog));
 
         app.component('app-header', AppHeader);
         app.component('app-menu', AppMenu);
@@ -34,5 +36,6 @@ export default {
         app.component('app-default-view', AppListingView);
         app.component('trans', AppString);
         app.component('AppListingView', AppListingView);
+        app.component('AppSettingsView', AppSettingsView);
     }
 };

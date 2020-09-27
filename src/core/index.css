@@ -29,3 +29,7 @@ body {
   color: var(--color--text-main);
   user-select: none;
 }
+
+h1 {
+  font-weight: 500;
+}
