@@ -6,6 +6,8 @@
     "build": "vite build"
   },
   "dependencies": {
+    "mdue": "^0.1.2",
+    "primevue": "^2.0.9",
     "vue": "^3.0.0-rc.1"
   },
   "devDependencies": {
@@ -13,7 +15,7 @@
     "@vue/compiler-sfc": "^3.0.0-rc.1"
   },
   "description": "A New Home MQTT UI",
-  "main": "src/main.js",
+  "main": "src/core/main.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/YannikSc/new-home-mqtt.git"

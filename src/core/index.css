@@ -1,0 +1,31 @@
+:root {
+  --setting--hue: 30;
+
+  /* CSS HSL */
+  --color--noshade-bright: hsla(var(--setting--hue), 30%, 90%, 1);
+  --color--shade-light: hsla(var(--setting--hue), 81%, 75%, 1);
+  --color--shade-medium: hsla(var(--setting--hue), 81%, 60%, 1);
+  --color--shade-normal: hsla(var(--setting--hue), 81%, 45%, 1);
+  --color--shade-dark: hsla(var(--setting--hue), 81%, 5%, 1);
+  --color--text-main: var(--color--shade-dark);
+
+  --body--bg: var(--color--noshade-bright);
+}
+
+html, body, #app {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--body--bg) !important;
+  --antd-wave-shadow-color: var(--color--shade-light);
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--color--text-main);
+}
