@@ -1,7 +1,7 @@
 <template>
   <AppModal :modal-shown="menuVisible" @modal-close="$emit('menu-close')" no-submit no-cancel>
     <template v-slot:title>
-      <trans string="menu.title_devices"/>
+      <trans string="menu.title_apps"/>
     </template>
     <template v-slot>
       <AppListing @set-active-component="onSetActiveComponent"/>

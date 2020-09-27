@@ -2,7 +2,7 @@
   <AppContainer>
     <template v-slot:content>
       <h1>
-        <trans string="menu.title_devices"/>
+        <trans string="menu.title_apps"/>
       </h1>
 
       <AppListing @set-active-component="onSetActiveComponent"/>
