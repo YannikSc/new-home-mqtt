@@ -1,6 +1,6 @@
 <template>
   <header>
-    <AppContainer>
+    <AppContainer flex>
       <template v-slot:content>
         <slot name="sidebar-button">
           <button class="hamburger-menu" @click="onMenuClick"><Menu/></button>
@@ -16,12 +16,12 @@
 
 <script>
 
-import AppContainer from '../molecule/AppContainer.vue';
-import {Menu} from 'mdue';
+import AppContainer from '../molecules/AppContainer.vue';
+import {Apps} from 'mdue';
 
 export default {
   name: 'AppHeader',
-  components: { AppContainer, Menu },
+  components: { AppContainer, Menu: Apps },
   emits: ['menu-toggle'],
   methods: {
     onMenuClick() {
@@ -43,6 +43,7 @@ header {
 h1 {
   color: var(--color--noshade-bright);
   margin: 0 0.5em;
+  font-weight: 500;
 }
 
 .hamburger-menu {

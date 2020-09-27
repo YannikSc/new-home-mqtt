@@ -8,6 +8,8 @@ import plugins from '../plugins.js';
  */
 const app = createApp(Index);
 
+app.provide('app', app);
+
 for (let plugin of plugins) {
     app.use(plugin);
 }
