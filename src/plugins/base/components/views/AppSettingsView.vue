@@ -10,10 +10,12 @@
 
 <script>
 import AppContainer from '../molecules/AppContainer.vue';
+import {Cog} from 'mdue';
 
 export default {
   name: 'AppSettingsView',
-  components: { AppContainer }
+  components: { AppContainer },
+  icon: Cog
 };
 </script>
 

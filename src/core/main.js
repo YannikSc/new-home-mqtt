@@ -1,6 +1,6 @@
-import { createApp } from 'vue'
-import Index from './Index.vue'
-import './index.css'
+import { createApp } from 'vue';
+import Index from './Index.vue';
+import './index.css';
 import plugins from '../plugins.js';
 
 /**
@@ -14,4 +14,4 @@ for (let plugin of plugins) {
     app.use(plugin);
 }
 
-app.mount('#app')
+app.mount('#app');

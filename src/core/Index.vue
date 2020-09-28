@@ -33,6 +33,8 @@ export default {
   name: 'Index',
   inject: ['app'],
   data() {
+    this.app.$forceUpdate = this.$forceUpdate.bind(this);
+
     window.addEventListener('hashchange', this.onHashChange.bind(this));
 
     let component = DefaultComponent;
@@ -53,14 +55,20 @@ export default {
       const name = component.name ? component.name : component;
 
       if (this.isComponentRegistered(name) && name !== current) {
-        window.history.pushState({ component: component.name }, document.title, '#' + component.name);
+        window.history.pushState({ component: name }, document.title, '#' + name);
       }
 
       if (!this.isComponentRegistered(name)) {
-        window.history.pushState({ component: component.name }, document.title, '#');
+        window.history.pushState({ component: name }, document.title, '#');
       }
 
-      this.focusedComponent = markRaw(component);
+      if (component.name) {
+        this.focusedComponent = markRaw(component);
+
+        return;
+      }
+
+      this.focusedComponent = component;
     },
     onHashChange() {
       let component = document.location.hash.substring(1);

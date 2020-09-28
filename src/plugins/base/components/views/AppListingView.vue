@@ -13,11 +13,13 @@
 <script>
 import AppListing from '../template/AppListing.vue';
 import AppContainer from '../molecules/AppContainer.vue';
+import { Apps } from 'mdue';
 
 export default {
   name: "AppListingView",
   components: { AppListing, AppContainer },
   emits: ['set-active-component'],
+  icon: Apps,
   methods: {
     onSetActiveComponent(app) {
       this.$emit('set-active-component', app);
