@@ -36,7 +36,7 @@ header {
   background: var(--color--shade-normal);
   box-sizing: border-box;
   color: var(--color--noshade-bright);
-  padding: 1em .5em;
+  padding: 1em 0;
   height: 4.5em;
 }
 

@@ -14,6 +14,11 @@ export class Settings {
      */
     mqtt_password = '';
 
+    /**
+     * TODO: Rewrite to API
+     *
+     * @return {Settings}
+     */
     static fromLocalStorage() {
         const {
             mqtt_host,
@@ -37,5 +42,12 @@ export class Settings {
         this.mqtt_host = mqtt_host;
         this.mqtt_username = mqtt_username;
         this.mqtt_password = mqtt_password;
+    }
+
+    /**
+     * TODO: Rewrite to API
+     */
+    saveToLocalStorage() {
+        localStorage.setItem('settings', JSON.stringify(this));
     }
 }

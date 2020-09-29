@@ -52,7 +52,7 @@ export default {
   methods: {
     updateComponent(component) {
       const current = document.location.hash.substring(1);
-      const name = component.name ? component.name : component;
+      const name = component.name || component;
 
       if (this.isComponentRegistered(name) && name !== current) {
         window.history.pushState({ component: name }, document.title, '#' + name);
