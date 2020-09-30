@@ -1,7 +1,7 @@
 import { markRaw, reactive } from '@vue/reactivity';
 
 export class AppManager {
-    _apps = reactive({ list: [] });
+    _apps = reactive({});
 
     /**
      * @returns {App[]}
@@ -14,7 +14,7 @@ export class AppManager {
      * @param {App} app
      */
     add(app) {
-        this._apps.list.push(markRaw(app));
+        this._apps[app.displayName] = markRaw(app);
     }
 }
 

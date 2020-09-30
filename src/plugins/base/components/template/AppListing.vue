@@ -1,6 +1,6 @@
 <template>
   <div class="apps--list">
-    <div class="card--wrapper" v-for="app in apps._apps.list">
+    <div class="card--wrapper" v-for="app in apps._apps">
       <AppCard @click="onClickCard(app)">
         <template v-slot:icon>
           <component :is="app.icon" class="app--icon"/>
