@@ -33,12 +33,11 @@ export default {
   name: 'Index',
   inject: ['app'],
   data() {
-    this.app.$forceUpdate = this.$forceUpdate.bind(this);
-
     window.addEventListener('hashchange', this.onHashChange.bind(this));
 
     let component = DefaultComponent;
-    let hash = document.location.hash.substring(1);
+    let hash = window.history.state.component;
+    let data = window.history.state.data || {};
 
     if (hash) {
       component = hash;
@@ -46,38 +45,43 @@ export default {
 
     return {
       menuVisible: false,
-      focusedComponent: component
+      focusedComponent: component,
+      componentData: data
     };
   },
   methods: {
-    updateComponent(component) {
-      const current = document.location.hash.substring(1);
-      const name = component.name || component;
+    updateComponent({contentComponent, data}) {
+      const current = window.history.state.component;
+      const name = contentComponent.name || contentComponent;
 
       if (this.isComponentRegistered(name) && name !== current) {
-        window.history.pushState({ component: name }, document.title, '#' + name);
+        window.history.pushState({ component: name, data }, document.title, '#' + name);
       }
 
       if (!this.isComponentRegistered(name)) {
-        window.history.pushState({ component: name }, document.title, '#');
+        window.history.pushState({ component: name, data }, document.title, '#');
       }
 
-      if (component.name) {
-        this.focusedComponent = markRaw(component);
+      this.componentData = data;
+
+      if (contentComponent.name) {
+        this.focusedComponent = markRaw(contentComponent);
 
         return;
       }
 
-      this.focusedComponent = component;
+      this.focusedComponent = contentComponent;
     },
     onHashChange() {
-      let component = document.location.hash.substring(1);
+      let component = window.history.state.component;
+      let data = window.history.state.data || {};
 
       if (!this.isComponentRegistered(component)) {
         component = DefaultComponent;
       }
 
       this.focusedComponent = component;
+      this.componentData = data;
     },
     isComponentRegistered(component) {
       const components = Object.keys(this.app._context.components);

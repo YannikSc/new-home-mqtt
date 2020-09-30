@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     onClickCard(app) {
-      this.$emit('set-active-component', app.contentComponent);
+      this.$emit('set-active-component', app);
     }
   }
 };

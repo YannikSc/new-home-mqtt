@@ -30,7 +30,7 @@ function addAppListener(apps, mqtt, app) {
         const clientName = topic.replaceAll('/application', '');
         const component = app.component(appName);
 
-        apps.add(new App(clientName, component && component.icon ? component.icon : ImageBroken, appName));
+        apps.add(new App(clientName, component && component.icon ? component.icon : ImageBroken, appName, {clientName}));
     });
 }
 

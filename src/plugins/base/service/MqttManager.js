@@ -78,10 +78,11 @@ export class MqttManager {
 
     /**
      * @param {string} topic
-     * @param {Object|Array} payload
+     * @param {string} payload
+     * @param options
      */
-    publish(topic, payload) {
-        this._client.publish(topic, JSON.stringify(payload));
+    publish(topic, payload, options = {}) {
+        this._client.publish(topic, payload, options);
     }
 
     /**

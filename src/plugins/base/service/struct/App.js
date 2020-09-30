@@ -15,13 +15,20 @@ export default class App {
     contentComponent = null;
 
     /**
+     * @type {any}
+     */
+    data = {};
+
+    /**
      * @param {string} displayName
      * @param {Component|{name: string}} icon
      * @param {Component|{name: string}} contentComponent
+     * @param {any} data
      */
-    constructor(displayName, icon, contentComponent) {
+    constructor(displayName, icon, contentComponent, data = {}) {
         this.displayName = displayName;
         this.icon = icon;
         this.contentComponent = contentComponent;
+        this.data = data;
     }
 }
