@@ -34,14 +34,10 @@ export default {
   inject: ['app'],
   data() {
     window.addEventListener('hashchange', this.onHashChange.bind(this));
+    const state = window.history.state || {};
 
-    let component = DefaultComponent;
-    let hash = window.history.state.component;
-    let data = window.history.state.data || {};
-
-    if (hash) {
-      component = hash;
-    }
+    let component = state.component || DefaultComponent;
+    let data = state.data || {};
 
     return {
       menuVisible: false,
@@ -51,7 +47,8 @@ export default {
   },
   methods: {
     updateComponent({contentComponent, data}) {
-      const current = window.history.state.component;
+      const state = window.history.state || {};
+      const current = state.component;
       const name = contentComponent.name || contentComponent;
 
       if (this.isComponentRegistered(name) && name !== current) {

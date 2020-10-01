@@ -7,12 +7,11 @@
   },
   "dependencies": {
     "mdue": "^0.1.2",
-    "primevue": "^2.0.9",
-    "vue": "^3.0.0-rc.1"
+    "vue": "^3.0.0-rc.13"
   },
   "devDependencies": {
     "vite": "^1.0.0-rc.1",
-    "@vue/compiler-sfc": "^3.0.0-rc.1"
+    "@vue/compiler-sfc": "^3.0.0-rc.13"
   },
   "description": "A New Home MQTT UI",
   "main": "src/core/main.js",
