@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import AppListing from '../template/AppListing.vue';
+import AppListing from '../templates/AppListing.vue';
 import AppContainer from '../molecules/AppContainer.vue';
 import { Apps } from 'mdue';
 

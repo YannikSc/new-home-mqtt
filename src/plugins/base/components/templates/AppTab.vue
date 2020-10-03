@@ -1,0 +1,39 @@
+<template>
+  <div ref="tab" class="app-tab" :class="{active}" :style="{'--app-tab--height': height}"
+       @resize="height = $refs.tab.scrollHeight">
+    <slot></slot>
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: "AppTab",
+  props: {
+    title: String,
+    active: Boolean
+  },
+  data() {
+    return {
+      height: '0px'
+    };
+  },
+  mounted() {
+    this.height = this.$refs.tab.scrollHeight + 'px';
+  }
+};
+</script>
+
+<style scoped>
+.app-tab {
+  --app-tab--height: 0;
+
+  height: 0;
+  transition: height .5s;
+  overflow: hidden;
+}
+
+.app-tab.active {
+  height: var(--app-tab--height);
+}
+</style>

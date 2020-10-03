@@ -1,12 +1,12 @@
 import MqttNeopixel from './components/views/MqttNeopixel.vue';
 import StripManager from './service/StripManager.js';
+import Strings from './Strings.js';
 
 export default {
     install(app) {
-        /**
-         * @type MqttManager
-         */
-        const mqtt = app._context.provides.mqtt;
+        const { mqtt, translation } = app._context.provides;
+
+        Strings(translation);
 
         mqtt.subscribe('+/colors', (topic, data) => {
             StripManager.addStrip(topic.split('/')[0], JSON.parse(data));

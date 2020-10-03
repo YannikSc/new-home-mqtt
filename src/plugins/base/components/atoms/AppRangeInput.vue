@@ -1,6 +1,8 @@
 <template>
   <div class="slider" @mousedown="onStartDrag" @touchstart.passive="onStartDrag" :style="'--value: ' + (value * 100) + '%' ">
-    <slot></slot>
+    <p class="slider--title">
+      <slot></slot>
+    </p>
 
     <div class="slider--bar" ref="bar">
       <div class="slider--handle"></div>
@@ -70,6 +72,10 @@ export default {
 .slider {
   padding: 1em 0.5em;
   --value: 0;
+}
+
+.slider--title {
+  margin: 0.5em 0 1em;
 }
 
 .slider--bar {
