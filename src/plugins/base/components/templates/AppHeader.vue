@@ -15,7 +15,6 @@
 </template>
 
 <script>
-
 import AppContainer from '../molecules/AppContainer.vue';
 import {Apps} from 'mdue';
 

@@ -11,6 +11,8 @@ import { ImageBroken } from 'mdue';
 import { Translate } from './service/Translation.js';
 import AppSettingsView from './components/views/AppSettingsView.vue';
 import { DefaultMqttManager } from './service/MqttManager.js';
+import AppShortcutsView from './components/views/AppShortcutsView.vue';
+import ShortcutManager from './service/ShortcutManager.js';
 
 /**
  * @param {AppManager} apps
@@ -18,6 +20,7 @@ import { DefaultMqttManager } from './service/MqttManager.js';
 function addApps(apps) {
     apps.add(new App(Translate('app.settings.title'), AppSettingsView.icon, AppSettingsView));
     apps.add(new App(Translate('menu.title_apps'), AppListingView.icon, AppListingView));
+    apps.add(new App(Translate('app.shortcuts.title'), AppShortcutsView.icon, AppShortcutsView));
 }
 
 /**
@@ -30,7 +33,7 @@ function addAppListener(apps, mqtt, app) {
         const clientName = topic.replaceAll('/application', '');
         const component = app.component(appName);
 
-        apps.add(new App(clientName, component && component.icon ? component.icon : ImageBroken, appName, {clientName}));
+        apps.add(new App(clientName, component && component.icon ? component.icon : ImageBroken, appName, { clientName }));
     });
 }
 
@@ -47,6 +50,7 @@ export default {
         app.provide('translation', Translation);
         app.provide('apps', AppManager);
         app.provide('mqtt', DefaultMqttManager);
+        app.provide('shortcuts', ShortcutManager);
 
         app.component('app-header', AppHeader);
         app.component('app-menu', AppMenu);
@@ -55,5 +59,6 @@ export default {
         app.component('trans', AppString);
         app.component('AppListingView', AppListingView);
         app.component('AppSettingsView', AppSettingsView);
+        app.component('AppShortcutsView', AppShortcutsView);
     }
 };

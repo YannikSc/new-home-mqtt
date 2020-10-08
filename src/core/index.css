@@ -9,6 +9,9 @@
   --color--shade-dark: hsla(var(--setting--hue), 81%, 5%, 1);
   --color--text-main: var(--color--shade-dark);
 
+  --color--success-main: rgb(76, 175, 80);
+  --color--error-main: rgb(244, 67, 54);
+
   --body--bg: var(--color--noshade-bright);
 }
 

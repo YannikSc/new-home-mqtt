@@ -11,6 +11,18 @@ function convertTopicToRegex(topic) {
     return new RegExp(`^${topic}$`);
 }
 
+/**
+ * @function
+ *
+ * @name MqttPublishHook
+ * @param {string} topic
+ * @param {string} payload
+ * @param {Object} options
+ */
+
+/**
+ * Manages Mqtt Communication
+ */
 export class MqttManager {
     /**
      * @type {Object.<string, Array.<function>>}
@@ -30,6 +42,13 @@ export class MqttManager {
      * @private
      */
     _connect;
+
+    /**
+     * @type {null|MqttPublishHook}
+     *
+     * @private
+     */
+    _publishHook = null;
 
     /**
      * @param {string} address
@@ -79,10 +98,39 @@ export class MqttManager {
     /**
      * @param {string} topic
      * @param {string} payload
-     * @param options
+     * @param {Object} options
+     * @param {Boolean} skipHook
      */
-    publish(topic, payload, options = {}) {
+    publish(topic, payload, options = {}, skipHook = false) {
+        if (!skipHook && this._publishHook) {
+            this._publishHook(topic, payload, options);
+
+            return;
+        }
+
         this._client.publish(topic, payload, options);
+    }
+
+    /**
+     * @param  {MqttPublishHook} hook
+     */
+    setHook(hook) {
+        if (this._publishHook) {
+            throw new Error('A hook is already set');
+        }
+
+        this._publishHook = hook;
+    }
+
+    unsetHook() {
+        this._publishHook = null;
+    }
+
+    /**
+     * @return {Boolean}
+     */
+    isHooked() {
+        return this._publishHook !== null;
     }
 
     /**

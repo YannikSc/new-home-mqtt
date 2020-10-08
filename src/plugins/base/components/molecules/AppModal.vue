@@ -14,10 +14,10 @@
               <slot/>
             </div>
             <div class="modal--footer" v-if="!noSubmit || !noCancel">
-              <AppButton primary v-if="!noSubmit">
+              <AppButton primary v-if="!noSubmit" @click="$emit('modal-submit')">
                 <trans :string="submitText"/>
               </AppButton>
-              <AppButton v-if="!noCancel">
+              <AppButton v-if="!noCancel" @click="$emit('modal-cancel')">
                 <trans :string="closeText"/>
               </AppButton>
             </div>
