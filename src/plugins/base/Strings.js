@@ -12,6 +12,7 @@ export default function (translation) {
         'app.settings.mqtt.host_label': 'Host',
         'app.settings.mqtt.user_label': 'Username',
         'app.settings.mqtt.pass_label': 'Password',
+        'app_select.value.default.name': 'Select'
     });
     translation.addStrings('de', {
         'menu.title_apps': 'Anwendungen',
@@ -23,5 +24,6 @@ export default function (translation) {
         'app.settings.mqtt.host_label': 'Adresse',
         'app.settings.mqtt.user_label': 'Nutzername',
         'app.settings.mqtt.pass_label': 'Passwort',
+        'app_select.value.default.name': 'Wählen'
     });
 }

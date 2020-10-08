@@ -1,7 +1,6 @@
 <template>
-  <div ref="tab" class="app-tab" :class="{active}" :style="{'--app-tab--height': height}"
-       @resize="height = $refs.tab.scrollHeight">
-    <slot></slot>
+  <div ref="tab" class="app-tab" :style="{'--app-tab--height': height}" :class="{active}">
+    <slot :active="active"/>
   </div>
 </template>
 
@@ -19,7 +18,21 @@ export default {
     };
   },
   mounted() {
-    this.height = this.$refs.tab.scrollHeight + 'px';
+    this.updateHeight();
+  },
+  watch: {
+    active() {
+      this.updateHeight();
+    }
+  },
+  methods: {
+    updateHeight() {
+      this.height = this.$refs.tab.scrollHeight + 'px';
+
+      setTimeout(() => {
+        this.height = 'auto';
+      }, 500);
+    }
   }
 };
 </script>

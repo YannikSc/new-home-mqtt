@@ -1,11 +1,11 @@
 <template>
   <div class="app-tabs">
-    <div class="app-tab" v-for="(slot, index) in tabs">
-      <AppButton class="app-tab--title" @click="active = index">{{ slot.props.title }}</AppButton>
+    <div class="app-tabs--titles">
+      <AppButton class="app-tab--title" v-for="(slot, index) in tabs" @click="active = index">{{ slot.props.title }}</AppButton>
+    </div>
 
-      <div class="app-tab--content" :class="{active: index === active}">
-        <component :is="slot" :active="active === index"></component>
-      </div>
+    <div class="app-tab--content" v-for="(slot, index) in tabs" :class="{active: index === active}">
+      <component :is="slot" :active="active === index"></component>
     </div>
   </div>
 </template>
@@ -26,4 +26,7 @@ export default {
 </script>
 
 <style scoped>
+.app-tabs--titles {
+  display: flex;
+}
 </style>

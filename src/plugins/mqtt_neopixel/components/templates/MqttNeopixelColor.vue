@@ -22,44 +22,61 @@ export default {
   name: "MqttNeopixelColor",
   components: { AppRangeInput },
   props: {
-    strip: Object
+    strip: Object,
+    clientName: String,
+    active: Boolean
   },
-  data(props) {
-    this.setColorParts((props.strip.colors || [])[0] || 0);
+  data() {
+    let colors = [0, 0, 0, 0];
+
+    try {
+      colors = JSON.parse(localStorage.getItem('mqtt-neopixel-color--' + this.clientName));
+    } catch (_) {
+    }
 
     return {
-      red: this.red,
-      green: this.green,
-      blue: this.blue,
-      white: this.white
+      red: colors[0],
+      green: colors[1],
+      blue: colors[2],
+      white: colors[3]
     };
   },
+  mounted() {
+    if (this.active) {
+      this.updateColors();
+    }
+  },
   methods: {
-    setColorParts(colors) {
-      this.red = (colors & 0xFF000000) >>> 24;
-      this.green = (colors & 0x00FF0000) >>> 16;
-      this.blue = (colors & 0x0000FF00) >>> 8;
-      this.white = colors & 0x000000FF;
-    },
     updateColors() {
       const color = (this.red << 24 | this.green << 16 | this.blue << 8 | this.white) >>> 0;
 
       this.strip.colors = [color];
+      this.strip.step = 0;
+
+      localStorage.setItem('mqtt-neopixel-color--' + this.clientName, JSON.stringify([
+        this.red,
+        this.green,
+        this.blue,
+        this.white
+      ]));
     }
   },
   watch: {
-    strip(updated) {
-      this.setColorParts((updated.colors || [])[0] || 0);
+    active(updated) {
+      if (updated === true) {
+        this.updateColors();
+      }
+    },
+    strip() {
+      if (this.active) {
+        this.updateColors();
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-
-.mqtt-neopixel-color {
-}
-
 .color-slider--red {
   --color--shade-medium: hsla(0, 81%, 60%, 1);
   --color--shade-normal: hsla(0, 81%, 45%, 1);
@@ -77,5 +94,4 @@ export default {
   --color--shade-normal: hsla(240, 81%, 45%, 1);
 
 }
-
 </style>

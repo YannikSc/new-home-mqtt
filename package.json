@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "mdue": "^0.1.2",
+    "tinygradient": "^1.1.2",
     "vue": "^3.0.0-rc.13"
   },
   "devDependencies": {

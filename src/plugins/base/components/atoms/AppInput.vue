@@ -31,6 +31,7 @@ label, input {
 input {
   margin-bottom: 1em;
   border: solid 2px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
   padding: 0.5em;
   box-sizing: border-box;
   font-size: 1em;

@@ -1,5 +1,6 @@
 <template>
-  <div class="slider" @mousedown="onStartDrag" @touchstart.passive="onStartDrag" :style="'--value: ' + (value * 100) + '%' ">
+  <div class="slider" @mousedown="onStartDrag" @touchstart.passive="onStartDrag"
+       :style="'--value: ' + (value * 100) + '%' ">
     <p class="slider--title">
       <slot></slot>
     </p>
@@ -86,6 +87,7 @@ export default {
   height: 0.5em;
   position: relative;
   width: 100%;
+  z-index: 1;
 }
 
 .slider--handle {
@@ -96,5 +98,6 @@ export default {
   margin-left: -0.25em;
   position: absolute;
   width: 0.5em;
+  z-index: 1;
 }
 </style>
