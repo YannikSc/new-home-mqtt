@@ -20,7 +20,8 @@ export default function (translation) {
         'app.mqtt_neopixel.advanced_settings.offset': 'Offset',
         'app.mqtt_neopixel.advanced_settings.count': 'LED Count',
         'app.mqtt_neopixel.input.step.text': 'Animation steps',
-        'app.mqtt_neopixel.input.width.text': 'Gradient width'
+        'app.mqtt_neopixel.input.width.text': 'Gradient width',
+        'app.mqtt_neopixel.edit_color.remove': 'Remove'
     });
     translation.addStrings('de', {
         'app.mqtt_neopixel.input.brightness.text': 'Helligkeit',
@@ -40,6 +41,7 @@ export default function (translation) {
         'app.mqtt_neopixel.advanced_settings.offset': 'Verschiebung',
         'app.mqtt_neopixel.advanced_settings.count': 'Anzahl LEDs',
         'app.mqtt_neopixel.input.step.text': 'Animations-Fortschritt',
-        'app.mqtt_neopixel.input.width.text': 'Verlauf Breite'
+        'app.mqtt_neopixel.input.width.text': 'Verlauf Breite',
+        'app.mqtt_neopixel.edit_color.remove': 'Entfernen'
     });
 }

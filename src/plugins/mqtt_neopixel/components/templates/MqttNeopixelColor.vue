@@ -30,7 +30,7 @@ export default {
     let colors = [0, 0, 0, 0];
 
     try {
-      colors = JSON.parse(localStorage.getItem('mqtt-neopixel-color--' + this.clientName));
+      colors = JSON.parse(localStorage.getItem('mqtt-neopixel-color--' + this.clientName)) || [0,0,0,0];
     } catch (_) {
     }
 

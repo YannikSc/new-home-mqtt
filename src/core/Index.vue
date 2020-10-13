@@ -46,7 +46,7 @@ export default {
     };
   },
   methods: {
-    updateComponent({contentComponent, data}) {
+    updateComponent({ contentComponent, data }) {
       const state = window.history.state || {};
       const current = state.component;
       const name = contentComponent.name || contentComponent;
@@ -70,8 +70,14 @@ export default {
       this.focusedComponent = contentComponent;
     },
     onHashChange() {
-      let component = window.history.state.component;
-      let data = window.history.state.data || {};
+      let component = 'app-content';
+      let data = {};
+
+      try {
+        component = window.history.state.component;
+        data = window.history.state.data || {};
+      } catch (_) {
+      }
 
       if (!this.isComponentRegistered(component)) {
         component = DefaultComponent;

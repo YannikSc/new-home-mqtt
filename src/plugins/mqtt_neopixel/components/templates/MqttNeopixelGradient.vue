@@ -21,7 +21,8 @@
       </AppInput>
     </div>
 
-    <AppModal no-cancel no-submit :modal-shown="edit !== -1" @modal-close="edit = -1">
+    <AppModal no-submit :modal-shown="edit !== -1" @modal-close="edit = -1" @modal-cancel="removeCurrentColor"
+              close-text="app.mqtt_neopixel.edit_color.remove">
       <template v-slot:title>Edit color</template>
       <template v-slot:default>
 
@@ -44,14 +45,14 @@
 
 <script>
 import AppButton from '../../../base/components/atoms/AppButton.vue';
-import { Plus } from 'mdue';
+import {Plus} from 'mdue';
 import AppModal from '../../../base/components/molecules/AppModal.vue';
 import AppRangeInput from '../../../base/components/atoms/AppRangeInput.vue';
 import tinygradient from 'tinygradient';
 import AppInput from '../../../base/components/atoms/AppInput.vue';
 
 export default {
-  name: "MqttNeopixelGradient",
+  name: 'MqttNeopixelGradient',
   components: { AppInput, AppRangeInput, AppModal, AppButton, Plus },
   props: {
     strip: Object,
@@ -118,7 +119,11 @@ export default {
     },
 
     addColor() {
-      this.colors.push([0, 0, 0]);
+      this.colors.push([
+        0,
+        0,
+        0
+      ]);
     },
 
     updateColors() {
@@ -126,7 +131,11 @@ export default {
         const colors = this.colors.map(this.asHex.bind(this));
 
         while (colors.length < 2) {
-          colors.push(colors[0] || [0, 0, 0]);
+          colors.push(colors[0] || [
+            0,
+            0,
+            0
+          ]);
         }
 
         const gradientInstance = tinygradient(colors);
@@ -142,6 +151,12 @@ export default {
       }
 
       localStorage.setItem('mqtt-neopixel-gradient--' + this.clientName, JSON.stringify(this.colors));
+    },
+
+    removeCurrentColor() {
+      this.colors.splice(this.edit, 1);
+      this.updateColors();
+      this.edit = -1;
     },
 
     saveStep() {
@@ -175,7 +190,7 @@ export default {
 }
 
 .color--background {
-  background-color: #ffffff;
+  background-color: #FFFFFF;
 }
 
 .color--preview {
