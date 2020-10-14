@@ -13,6 +13,7 @@ import AppSettingsView from './components/views/AppSettingsView.vue';
 import { DefaultMqttManager } from './service/MqttManager.js';
 import AppShortcutsView from './components/views/AppShortcutsView.vue';
 import ShortcutManager from './service/ShortcutManager.js';
+import { DefaultBackendGateway } from './service/BackendGateway.js';
 
 /**
  * @param {AppManager} apps
@@ -51,6 +52,7 @@ export default {
         app.provide('apps', AppManager);
         app.provide('mqtt', DefaultMqttManager);
         app.provide('shortcuts', ShortcutManager);
+        app.provide('backend', DefaultBackendGateway);
 
         app.component('app-header', AppHeader);
         app.component('app-menu', AppMenu);

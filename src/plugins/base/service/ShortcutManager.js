@@ -1,13 +1,29 @@
-export class ShortcutManager {
-    shortcuts = {};
+import { DefaultBackendGateway } from './BackendGateway.js';
 
-    get(shortcutName) {
-        return this.shortcuts[shortcutName];
+export class ShortcutManager {
+    /**
+     * @type {BackendGateway}
+     */
+    backendGateway = null;
+
+    /**
+     * @param {BackendGateway} backendGateway
+     */
+    constructor(backendGateway) {
+        this.backendGateway = backendGateway;
     }
 
-    add(shortcutName, shortcutData) {
-        this.shortcuts[shortcutName] = shortcutData;
+    async list() {
+        return await this.backendGateway.listShortcuts();
+    }
+
+    async add(shortcutName, shortcutData) {
+        await this.backendGateway.postShortcut(shortcutName, shortcutData);
+    }
+
+    async delete(shortcutName) {
+        await this.backendGateway.deleteShortcut(shortcutName);
     }
 }
 
-export default new ShortcutManager();
+export default new ShortcutManager(DefaultBackendGateway);

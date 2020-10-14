@@ -72,8 +72,6 @@ export default {
 
   methods: {
     updateStrip() {
-      console.log(this.strip);
-
       this.mqtt.publish(this.clientName + '/colors', JSON.stringify(this.strip), { retain: true });
     }
   }

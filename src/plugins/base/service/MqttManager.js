@@ -166,6 +166,6 @@ export class MqttManager {
     }
 }
 
-const settings = Settings.fromLocalStorage();
+const settings = Settings.fromRawSettings();
 
-export const DefaultMqttManager = new MqttManager(settings.mqtt_host, settings.mqtt_username, settings.mqtt_password);
+export const DefaultMqttManager = new MqttManager(settings.mqttHost, settings.mqttUsername, settings.mqttPassword);

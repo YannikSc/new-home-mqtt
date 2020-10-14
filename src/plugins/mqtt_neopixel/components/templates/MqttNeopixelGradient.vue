@@ -45,7 +45,7 @@
 
 <script>
 import AppButton from '../../../base/components/atoms/AppButton.vue';
-import {Plus} from 'mdue';
+import { Plus } from 'mdue';
 import AppModal from '../../../base/components/molecules/AppModal.vue';
 import AppRangeInput from '../../../base/components/atoms/AppRangeInput.vue';
 import tinygradient from 'tinygradient';
@@ -87,8 +87,6 @@ export default {
       if (updated === true) {
         this.updateColors();
       }
-
-      console.log(this.strip);
     },
     strip() {
       if (!this.width) {

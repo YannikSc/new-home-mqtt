@@ -1,53 +1,53 @@
+import settings from '../../../../settings.js';
+
 export class Settings {
     /**
      * @type {string}
      */
-    mqtt_host = '';
+    mqttHost = '';
 
     /**
      * @type {string}
      */
-    mqtt_username = '';
+    mqttUsername = '';
 
     /**
      * @type {string}
      */
-    mqtt_password = '';
+    mqttPassword = '';
 
     /**
-     * TODO: Rewrite to API
-     *
      * @return {Settings}
      */
-    static fromLocalStorage() {
-        const {
-            mqtt_host,
-            mqtt_username,
-            mqtt_password
-        } = JSON.parse(localStorage.getItem('settings') || '{}');
-
+    static fromRawSettings() {
         return new Settings(
-            mqtt_host || '',
-            mqtt_username || '',
-            mqtt_password || ''
+            settings['settings.mqtt_url'],
+            settings['settings.mqtt_user'],
+            settings['settings.mqtt_pass']
         );
     }
 
     /**
-     * @param {string} mqtt_host
-     * @param {string} mqtt_username
-     * @param {string} mqtt_password
+     * @param {string} mqttHost
+     * @param {string} mqttUsername
+     * @param {string} mqttPassword
      */
-    constructor(mqtt_host, mqtt_username, mqtt_password) {
-        this.mqtt_host = mqtt_host;
-        this.mqtt_username = mqtt_username;
-        this.mqtt_password = mqtt_password;
+    constructor(mqttHost, mqttUsername, mqttPassword) {
+        this.mqttHost = mqttHost;
+        this.mqttUsername = mqttUsername;
+        this.mqttPassword = mqttPassword;
     }
 
     /**
-     * TODO: Rewrite to API
+     * Returns an object matching the settings.js format
+     *
+     * @returns {{'settings.mqtt_url': string, 'settings.mqtt_user': string, 'settings.mqtt_pass': string}}
      */
-    saveToLocalStorage() {
-        localStorage.setItem('settings', JSON.stringify(this));
+    toSettings() {
+        return {
+            'settings.mqtt_url': this.mqttHost,
+            'settings.mqtt_user': this.mqttUsername,
+            'settings.mqtt_pass': this.mqttPassword
+        };
     }
 }

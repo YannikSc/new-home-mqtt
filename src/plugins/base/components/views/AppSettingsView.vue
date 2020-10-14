@@ -11,13 +11,13 @@
 
       <AppContainer full flex vertical>
         <template v-slot:content>
-          <AppInput type="text" v-model="settings.mqtt_host">
+          <AppInput type="text" v-model="settings.mqttHost">
             <trans string="app.settings.mqtt.host_label"/>
           </AppInput>
-          <AppInput type="text" v-model="settings.mqtt_username">
+          <AppInput type="text" v-model="settings.mqttUsername">
             <trans string="app.settings.mqtt.user_label"/>
           </AppInput>
-          <AppInput type="password" v-model="settings.mqtt_password">
+          <AppInput type="password" v-model="settings.mqttPassword">
             <trans string="app.settings.mqtt.pass_label"/>
           </AppInput>
         </template>
@@ -42,13 +42,13 @@ export default {
   components: { AppContainer, AppInput, AppButton },
   data() {
     return {
-      settings: Settings.fromLocalStorage()
+      settings: Settings.fromRawSettings()
     };
   },
   icon: Cog,
   methods: {
     onSave() {
-      this.settings.saveToLocalStorage();
+      this.settings.saveRawSettings();
     }
   }
 };

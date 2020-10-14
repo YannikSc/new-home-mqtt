@@ -8,7 +8,7 @@
       </h1>
 
       <div class="shortcut-list">
-        <div class="shortcut-button" v-for="(data, name) in this.shortcuts.shortcuts">
+        <div class="shortcut-button" v-for="(data, name) in shortcutList">
           <AppCard @click="onClickCard(data)">
             <template v-slot:icon>
               <Link class="app--icon"/>
@@ -63,7 +63,9 @@ export default {
   emits: ['set-active-component'],
   inject: ['mqtt', 'shortcuts'],
   data() {
-    const data = { shortcutName: '', saveModal: false, shortcutData: {}, Translate };
+    const data = { shortcutName: '', saveModal: false, shortcutData: {}, Translate, shortcutList: [] };
+
+    this.shortcuts.list().then((shortcuts) => this.shortcutList = shortcuts);
 
     if (this.mqtt.isHooked() && this.$attrs.saveModal && this.$attrs.shortcutData) {
       this.mqtt.unsetHook();
@@ -80,21 +82,26 @@ export default {
 
       this.$emit('set-active-component', { contentComponent: AppListingView });
     },
+
     onCancelShortcut() {
       this.mqtt.unsetHook();
       this.$forceUpdate();
     },
+
     onModalClose() {
       this.saveModal = false;
       this.shortcutData = {};
     },
+
     onModalSubmit() {
-      this.shortcuts.add(this.shortcutName, this.shortcutData);
+      this.shortcuts.add(this.shortcutName, [this.shortcutData]);
+      this.shortcuts.list().then((shortcuts) => this.shortcutList = shortcuts);
       this.saveModal = false;
       this.shortcutData = {};
 
       this.$forceUpdate();
     },
+
     onPublished(topic, payload, options) {
       const shortcutData = {
         topic,
@@ -109,9 +116,13 @@ export default {
         }
       });
     },
-    onClickCard({ topic, payload, options }) {
-      this.mqtt.publish(topic, payload, options);
-      console.log(topic, payload, options);
+
+    onClickCard(mqttEvents) {
+      for (let event of mqttEvents) {
+        let { topic, payload, options } = event;
+
+        this.mqtt.publish(topic, payload, options);
+      }
     }
   }
 };
