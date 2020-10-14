@@ -4,7 +4,7 @@
       <span><slot/></span>
       <select @input="updateValue" ref="input" :value="modelValue">
         <option disabled value="0">
-          <trans string="app_select.value.default.name"/>
+          <trans string="app.select.value.default.name"/>
         </option>
         <option v-for="(value, key) in values" :value="key">{{ value }}</option>
       </select>
@@ -14,16 +14,16 @@
 
 <script>
 export default {
-  name: "AppSelect",
+  name: 'AppSelect',
   props: {
     values: Object,
-    modelValue: [String, Number, Boolean]
+    modelValue: [String, Number, Boolean],
   },
   methods: {
     updateValue() {
       this.$emit('update:modelValue', this.$refs.input.value);
-    }
-  }
+    },
+  },
 };
 </script>
 

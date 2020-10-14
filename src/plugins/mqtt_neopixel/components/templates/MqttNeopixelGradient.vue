@@ -44,20 +44,26 @@
 </template>
 
 <script>
-import AppButton from '../../../base/components/atoms/AppButton.vue';
 import { Plus } from 'mdue';
-import AppModal from '../../../base/components/molecules/AppModal.vue';
-import AppRangeInput from '../../../base/components/atoms/AppRangeInput.vue';
 import tinygradient from 'tinygradient';
+import AppButton from '../../../base/components/atoms/AppButton.vue';
 import AppInput from '../../../base/components/atoms/AppInput.vue';
+import AppRangeInput from '../../../base/components/atoms/AppRangeInput.vue';
+import AppModal from '../../../base/components/molecules/AppModal.vue';
 
 export default {
   name: 'MqttNeopixelGradient',
-  components: { AppInput, AppRangeInput, AppModal, AppButton, Plus },
+  components: {
+    AppInput,
+    AppRangeInput,
+    AppModal,
+    AppButton,
+    Plus,
+  },
   props: {
     strip: Object,
     clientName: String,
-    active: Boolean
+    active: Boolean,
   },
   data() {
     let width;
@@ -74,7 +80,7 @@ export default {
     return {
       colors: this.getInitialColors(),
       width,
-      edit: -1
+      edit: -1,
     };
   },
   mounted() {
@@ -99,7 +105,7 @@ export default {
     },
     width() {
       this.updateColors();
-    }
+    },
   },
   methods: {
     getInitialColors() {
@@ -120,7 +126,7 @@ export default {
       this.colors.push([
         0,
         0,
-        0
+        0,
       ]);
     },
 
@@ -132,7 +138,7 @@ export default {
           colors.push(colors[0] || [
             0,
             0,
-            0
+            0,
           ]);
         }
 
@@ -173,8 +179,8 @@ export default {
       }
 
       return '#' + hex;
-    }
-  }
+    },
+  },
 };
 </script>
 

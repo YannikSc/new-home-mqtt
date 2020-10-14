@@ -56,7 +56,10 @@ export class MqttManager {
      * @param {string|null} password
      */
     constructor(address, username, password) {
-        this._client = mqtt.connect(address, { username, password });
+        this._client = mqtt.connect(address, {
+            username,
+            password,
+        });
         this._client.on('message', this._handleMessage.bind(this));
 
         this._connect = new Promise(((resolve, reject) => {

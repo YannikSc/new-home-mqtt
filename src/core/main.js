@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
-import Index from './Index.vue';
-import './index.css';
 import plugins from '../plugins.js';
+import './index.css';
+import Index from './Index.vue';
 
 /**
  * @type {App<Element>}
@@ -10,7 +10,7 @@ const app = createApp(Index);
 
 app.provide('app', app);
 
-for (let plugin of plugins) {
+for (const plugin of plugins) {
     app.use(plugin);
 }
 

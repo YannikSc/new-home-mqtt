@@ -1,19 +1,19 @@
+import { ImageBroken } from 'mdue';
+import AppString from './components/atoms/AppString.vue';
 import AppContent from './components/templates/AppContent.vue';
 import AppHeader from './components/templates/AppHeader.vue';
 import AppMenu from './components/templates/AppMenu.vue';
-import AppString from './components/atoms/AppString.vue';
-import AppManager from './service/AppManager';
 import AppListingView from './components/views/AppListingView.vue';
-import Translation from './service/Translation';
-import Strings from './Strings';
-import App from './service/struct/App';
-import { ImageBroken } from 'mdue';
-import { Translate } from './service/Translation.js';
 import AppSettingsView from './components/views/AppSettingsView.vue';
-import { DefaultMqttManager } from './service/MqttManager.js';
 import AppShortcutsView from './components/views/AppShortcutsView.vue';
-import ShortcutManager from './service/ShortcutManager.js';
+import AppManager from './service/AppManager';
 import { DefaultBackendGateway } from './service/BackendGateway.js';
+import { DefaultMqttManager } from './service/MqttManager.js';
+import ShortcutManager from './service/ShortcutManager.js';
+import App from './service/struct/App';
+import Translation from './service/Translation';
+import { Translate } from './service/Translation.js';
+import Strings from './Strings';
 
 /**
  * @param {AppManager} apps
@@ -34,7 +34,12 @@ function addAppListener(apps, mqtt, app) {
         const clientName = topic.replaceAll('/application', '');
         const component = app.component(appName);
 
-        apps.add(new App(clientName, component && component.icon ? component.icon : ImageBroken, appName, { clientName }));
+        apps.add(new App(
+            clientName,
+            component && component.icon ? component.icon : ImageBroken,
+            appName,
+            { clientName },
+        ));
     });
 }
 
@@ -42,7 +47,7 @@ export default {
     /**
      * @param {App<Element>} app
      */
-    install(app) {
+    install(app) { // eslint-disable-line max-statements
         Strings(Translation);
 
         addApps(AppManager);
@@ -62,5 +67,5 @@ export default {
         app.component('AppListingView', AppListingView);
         app.component('AppSettingsView', AppSettingsView);
         app.component('AppShortcutsView', AppShortcutsView);
-    }
+    },
 };

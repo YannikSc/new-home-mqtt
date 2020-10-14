@@ -12,7 +12,7 @@ export default {
             StripManager.addStrip(topic.split('/')[0], JSON.parse(data));
         });
 
-        app.provide('strips', StripManager)
+        app.provide('strips', StripManager);
 
         app.component('mqtt_neopixel', MqttNeopixel);
     }

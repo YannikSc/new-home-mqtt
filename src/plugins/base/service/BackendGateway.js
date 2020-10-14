@@ -72,7 +72,7 @@ export class BackendGateway {
         return new Request(this.url.replace(/^(.*)\/$/, '$1') + url, {
             method,
             headers,
-            body
+            body,
         });
     }
 }

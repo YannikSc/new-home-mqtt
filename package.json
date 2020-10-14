@@ -1,34 +1,35 @@
 {
-  "name": "new-home-mqtt",
-  "version": "0.0.0",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build"
-  },
-  "dependencies": {
-    "mdue": "^0.1.2",
-    "tinygradient": "^1.1.2",
-    "vue": "^3.0.0-rc.13"
-  },
-  "devDependencies": {
-    "vite": "^1.0.0-rc.1",
-    "@vue/compiler-sfc": "^3.0.0-rc.13"
-  },
-  "description": "A New Home MQTT UI",
-  "main": "src/core/main.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/YannikSc/new-home-mqtt.git"
-  },
-  "keywords": [
-    "mqtt",
-    "iot",
-    "vue"
-  ],
-  "author": "Yannik_Sc",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/YannikSc/new-home-mqtt/issues"
-  },
-  "homepage": "https://github.com/YannikSc/new-home-mqtt#readme"
+    "name": "new-home-mqtt",
+    "version": "0.0.0",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "dependencies": {
+        "mdue": "^0.1.2",
+        "tinygradient": "^1.1.2",
+        "vue": "^3.0.0-rc.13"
+    },
+    "devDependencies": {
+        "@vue/compiler-sfc": "^3.0.0-rc.13",
+        "eslint": "^7.11.0",
+        "vite": "^1.0.0-rc.1"
+    },
+    "description": "A New Home MQTT UI",
+    "main": "src/core/main.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/YannikSc/new-home-mqtt.git"
+    },
+    "keywords": [
+        "mqtt",
+        "iot",
+        "vue"
+    ],
+    "author": "Yannik_Sc",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/YannikSc/new-home-mqtt/issues"
+    },
+    "homepage": "https://github.com/YannikSc/new-home-mqtt#readme"
 }
