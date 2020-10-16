@@ -33,24 +33,32 @@
 </template>
 
 <script>
+import AppInput from '../../../base/components/atoms/AppInput.vue';
 import AppRangeInput from '../../../base/components/atoms/AppRangeInput.vue';
+import AppSelect from '../../../base/components/atoms/AppSelect.vue';
 import AppCollapse from '../../../base/components/templates/AppCollapse.vue';
 import { Translate } from '../../../base/service/Translation.js';
-import AppSelect from '../../../base/components/atoms/AppSelect.vue';
-import AppInput from '../../../base/components/atoms/AppInput.vue';
 
 export default {
-  name: "MqttNeopixelStripSettings",
-  components: { AppInput, AppSelect, AppCollapse, AppRangeInput },
+  name: 'MqttNeopixelStripSettings',
+  components: {
+    AppInput,
+    AppSelect,
+    AppCollapse,
+    AppRangeInput,
+  },
   props: {
-    strip: Object
+    strip: Object,
   },
   data() {
     return {
-      Translate
+      Translate,
     };
   },
   watch: {
+    'strip.brightness'(updated) {
+      this.strip.brightness = parseInt(updated);
+    },
     'strip.type'(updated) {
       this.strip.type = parseInt(updated);
     },
@@ -68,7 +76,7 @@ export default {
     },
     'strip.offset'(updated) {
       this.strip.offset = parseInt(updated);
-    }
+    },
   },
   methods: {
     stripTypes() {
@@ -102,10 +110,10 @@ export default {
         156: 'BRWG',
         216: 'BRGW',
         180: 'BGWR',
-        228: 'BGRW'
+        228: 'BGRW',
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

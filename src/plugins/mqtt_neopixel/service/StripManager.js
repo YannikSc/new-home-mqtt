@@ -3,8 +3,12 @@ import { reactive } from '@vue/reactivity';
 export class StripManager {
     strips = reactive({});
 
-    addStrip(device, property) {
-        this.strips[device] = property;
+    updateStrip(device, property, value) {
+        if (!this.strips.hasOwnProperty(device)) {
+            this.strips[device] = {};
+        }
+
+        this.strips[device][property] = value;
     }
 }
 

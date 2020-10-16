@@ -27,19 +27,19 @@
 </template>
 
 <script>
-import AppContainer from '../../../base/components/molecules/AppContainer.vue';
 import { watch } from '@vue/runtime-core';
-import { Translate } from '../../../base/service/Translation.js';
-import AppRangeInput from '../../../base/components/atoms/AppRangeInput.vue';
 import AppButton from '../../../base/components/atoms/AppButton.vue';
-import MqttNeopixelStripSettings from '../templates/MqttNeopixelStripSettings.vue';
-import MqttNeopixelColor from '../templates/MqttNeopixelColor.vue';
-import AppTabs from '../../../base/components/templates/AppTabs.vue';
+import AppRangeInput from '../../../base/components/atoms/AppRangeInput.vue';
+import AppContainer from '../../../base/components/molecules/AppContainer.vue';
 import AppTab from '../../../base/components/templates/AppTab.vue';
+import AppTabs from '../../../base/components/templates/AppTabs.vue';
+import { Translate } from '../../../base/service/Translation.js';
+import MqttNeopixelColor from '../templates/MqttNeopixelColor.vue';
 import MqttNeopixelGradient from '../templates/MqttNeopixelGradient.vue';
+import MqttNeopixelStripSettings from '../templates/MqttNeopixelStripSettings.vue';
 
 export default {
-  name: "MqttNeopixelWindow",
+  name: 'MqttNeopixelWindow',
   components: {
     MqttNeopixelGradient,
     MqttNeopixelColor,
@@ -48,33 +48,51 @@ export default {
     AppTabs,
     AppTab,
     AppButton,
-    MqttNeopixelStripSettings
+    MqttNeopixelStripSettings,
   },
   inject: ['strips', 'mqtt'],
   props: {
-    clientName: String
+    clientName: String,
   },
   data(props) {
     const tabs = {
-      colors: { component: AppContainer, name: 'Colors', data: { strip: props.strips.strips[props.clientName] } }
+      colors: {
+        component: AppContainer,
+        name: 'Colors',
+        data: { strip: props.strips.strips[props.clientName] },
+      },
     };
 
     watch(props.strips.strips, () => {
-      this.strip = props.strips.strips[props.clientName];
+      this.strip.type = props.strips.strips[props.clientName].type;
+      this.strip.pin = props.strips.strips[props.clientName].pin;
+      this.strip.offset = props.strips.strips[props.clientName].offset;
+      this.strip.step = props.strips.strips[props.clientName].step;
+      this.strip.count = props.strips.strips[props.clientName].count;
+      this.strip.delay = props.strips.strips[props.clientName].delay;
+      this.strip.brightness = props.strips.strips[props.clientName].brightness;
+      this.strip.colors = props.strips.strips[props.clientName].colors;
     });
 
     return {
       strip: props.strips.strips[props.clientName] || {},
       tabs,
-      Translate
+      Translate,
     };
   },
 
   methods: {
     updateStrip() {
-      this.mqtt.publish(this.clientName + '/colors', JSON.stringify(this.strip), { retain: true });
-    }
-  }
+      this.mqtt.publish(this.clientName + '/type', this.strip.type.toString(), { retain: true });
+      this.mqtt.publish(this.clientName + '/pin', this.strip.pin.toString(), { retain: true });
+      this.mqtt.publish(this.clientName + '/offset', this.strip.offset.toString(), { retain: true });
+      this.mqtt.publish(this.clientName + '/step', this.strip.step.toString(), { retain: true });
+      this.mqtt.publish(this.clientName + '/count', this.strip.count.toString(), { retain: true });
+      this.mqtt.publish(this.clientName + '/delay', this.strip.delay.toString(), { retain: true });
+      this.mqtt.publish(this.clientName + '/brightness', this.strip.brightness.toString(), { retain: true });
+      this.mqtt.publish(this.clientName + '/colors', JSON.stringify(this.strip.colors), { retain: true });
+    },
+  },
 };
 </script>
 

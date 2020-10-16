@@ -13,20 +13,29 @@
 
 <script>
 export default {
-  name: "AppRangeInput",
+  name: 'AppRangeInput',
   props: {
-    min: { type: Number, default: 0 },
-    max: { type: Number, default: 100 },
-    modelValue: Number
+    min: {
+      type: Number,
+      default: 0,
+    },
+    max: {
+      type: Number,
+      default: 100,
+    },
+    modelValue: Number,
   },
   data(props) {
     this.onMouseMove = this.onMouseMove.bind(this);
 
     let value = (props.modelValue || 0) - props.min;
     value = value / (props.max - props.min);
+    if (value < 0) {
+      value = 0;
+    }
 
     return {
-      value
+      value,
     };
   },
   methods: {
@@ -43,7 +52,10 @@ export default {
     },
     onMouseMove(event) {
       let { clientX } = (event.touches || [])[0] || event;
-      let { left, width } = this.$refs.bar.getBoundingClientRect();
+      let {
+        left,
+        width,
+      } = this.$refs.bar.getBoundingClientRect();
 
       let pos = clientX - left;
 
@@ -58,14 +70,22 @@ export default {
       this.value = pos / width;
 
       this.$emit('update:modelValue', Math.ceil((this.max - this.min) * this.value) + this.min);
-    }
+    },
   },
   watch: {
     modelValue(updated) {
-      const value = (updated || 0) - this.min;
-      this.value = value / (this.max - this.min);
-    }
-  }
+      let value = (updated || 0) - this.min;
+      value = value / (this.max - this.min);
+
+      if (value < 0) {
+        this.value = 0;
+
+        return;
+      }
+
+      this.value = value;
+    },
+  },
 };
 </script>
 
