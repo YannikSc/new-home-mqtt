@@ -1,22 +1,24 @@
 <template>
-  <AppContainer>
-    <template v-slot:content>
+  <el-row>
+    <el-col v-bind="main">
       <h1>
         <trans string="app.shortcuts.title"/>
         <Plus class="icon--plus" @click="onAddShortcut" v-if="!mqtt.isHooked()"/>
         <Cancel class="icon--cancel" @click="onCancelShortcut" v-if="mqtt.isHooked()"/>
       </h1>
 
-      <div class="shortcut-list">
-        <div class="shortcut-button" v-for="(data, name) in shortcutList">
-          <AppCard @click="onClickCard(data)">
-            <template v-slot:icon>
-              <Link class="app--icon"/>
-            </template>
-            <template v-slot:name>{{ name }}</template>
-          </AppCard>
-        </div>
-      </div>
+      <el-row class="apps--list">
+        <el-col class="card--wrapper" v-for="(data, name) in shortcutList" v-bind="cards">
+          <el-card @click="onClickCard(data)">
+            <div class="icon--square">
+              <div class="icon--wrap">
+                <Link class="app--icon"/>
+              </div>
+            </div>
+            <span>{{ name }}</span>
+          </el-card>
+        </el-col>
+      </el-row>
 
       <AppModal :modal-shown="saveModal" @modal-close="onModalClose"
                 @modal-cancel="onModalClose"
@@ -42,28 +44,46 @@
           </AppCollapse>
         </template>
       </AppModal>
-    </template>
-  </AppContainer>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
-import AppContainer from '../molecules/AppContainer.vue';
 import { Cancel, Link, Plus } from 'mdue';
-import AppListingView from './AppListingView.vue';
-import AppModal from '../molecules/AppModal.vue';
-import AppInput from '../atoms/AppInput.vue';
-import AppCollapse from '../templates/AppCollapse.vue';
 import { Translate } from '../../service/Translation.js';
+import { cards, main } from '../../Sizes.js';
+import AppInput from '../atoms/AppInput.vue';
 import AppCard from '../molecules/AppCard.vue';
+import AppContainer from '../molecules/AppContainer.vue';
+import AppModal from '../molecules/AppModal.vue';
+import AppCollapse from '../templates/AppCollapse.vue';
+import AppListingView from './AppListingView.vue';
 
 export default {
-  name: "AppShortcutsView",
+  name: 'AppShortcutsView',
   icon: Link,
-  components: { AppCard, AppCollapse, AppInput, AppModal, AppContainer, Plus, Cancel, Link },
+  components: {
+    AppCard,
+    AppCollapse,
+    AppInput,
+    AppModal,
+    AppContainer,
+    Plus,
+    Cancel,
+    Link,
+  },
   emits: ['set-active-component'],
   inject: ['mqtt', 'shortcuts'],
   data() {
-    const data = { shortcutName: '', saveModal: false, shortcutData: {}, Translate, shortcutList: [] };
+    const data = {
+      shortcutName: '',
+      saveModal: false,
+      shortcutData: {},
+      Translate,
+      shortcutList: [],
+      cards,
+      main,
+    };
 
     this.shortcuts.list().then((shortcuts) => this.shortcutList = shortcuts);
 
@@ -106,25 +126,30 @@ export default {
       const shortcutData = {
         topic,
         payload,
-        options
+        options,
       };
 
       this.$emit('set-active-component', {
-        contentComponent: 'AppShortcutsView', data: {
+        contentComponent: 'AppShortcutsView',
+        data: {
           shortcutData,
-          saveModal: true
-        }
+          saveModal: true,
+        },
       });
     },
 
     onClickCard(mqttEvents) {
       for (let event of mqttEvents) {
-        let { topic, payload, options } = event;
+        let {
+          topic,
+          payload,
+          options,
+        } = event;
 
         this.mqtt.publish(topic, payload, options);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -156,21 +181,31 @@ h1 {
   transition: outline 10000s 10000s;
 }
 
-.shortcut-list {
-  flex-wrap: wrap;
-  display: flex;
+.card--wrapper {
+  padding: .5em;
+  box-sizing: border-box;
+  text-align: center;
 }
 
-.shortcut-button {
-  display: flex;
-  box-sizing: border-box;
-  padding: 1em;
-  justify-content: center;
-  flex: 0 0 20%;
+.icon--square {
+  position: relative;
+  width: 50%;
+  padding-bottom: 100%;
+}
+
+.icon--wrap {
+  position: absolute;
+  height: 100%;
+  width: 200%;
 }
 
 .app--icon {
-  height: 4em;
-  width: 4em;
+  height: 80%;
+  width: 80%;
+}
+
+.icon--square::after {
+  content: '';
+  display: block;
 }
 </style>

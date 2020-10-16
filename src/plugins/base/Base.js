@@ -20,7 +20,6 @@ import Strings from './Strings';
  */
 function addApps(apps) {
     apps.add(new App(Translate('app.settings.title'), AppSettingsView.icon, AppSettingsView));
-    apps.add(new App(Translate('menu.title_apps'), AppListingView.icon, AppListingView));
     apps.add(new App(Translate('app.shortcuts.title'), AppShortcutsView.icon, AppShortcutsView));
 }
 
