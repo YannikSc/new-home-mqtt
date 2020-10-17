@@ -27,21 +27,36 @@
           <trans string="app.shortcuts.title_new"/>
         </template>
         <template v-slot:default>
-          <AppInput v-model="shortcutName">
-            <trans string="app.shortcuts.modal.shortcut_name.text"/>
-          </AppInput>
+          <el-form>
+            <el-form-item>
+              <template v-slot:label><trans string="app.shortcuts.modal.shortcut_name.text"/></template>
+              <el-input v-model="shortcutName"/>
+            </el-form-item>
 
-          <AppCollapse class="shortcut-detail" :title="Translate('app.shortcuts.modal.shortcut_topic.text')">
-            <code>{{ shortcutData.topic }}</code>
-          </AppCollapse>
+            <el-form-item>
+              <p>
+                <trans string="app.shortcuts.modal.shortcut_events.text"/>
+              </p>
 
-          <AppCollapse class="shortcut-detail" :title="Translate('app.shortcuts.modal.shortcut_payload.text')">
-            <textarea class="shortcut-payload-input" v-model="shortcutData.payload"></textarea>
-          </AppCollapse>
-
-          <AppCollapse class="shortcut-detail" :title="Translate('app.shortcuts.modal.shortcut_options.text')">
-            <pre><code>{{ shortcutData.options }}</code></pre>
-          </AppCollapse>
+              <el-collapse>
+                <el-collapse-item v-for="(mqttEvent, index) in events">
+                  <template v-slot:title>
+                    <el-button class="button--delete" type="danger" icon="el-icon-delete" circle
+                               @click="deleteEvent(index, $event)" size="mini"/>
+                    <p>
+                      Topic: {{ mqttEvent.topic }}
+                    </p>
+                  </template>
+                  <el-collapse-item :title="Translate('app.shortcuts.modal.shortcut_payload.text')">
+                    <el-input type="textarea" v-model="mqttEvent.payload"></el-input>
+                  </el-collapse-item>
+                  <el-checkbox v-model="mqttEvent.options.retain">
+                    <trans string="app.shortcuts.modal.shortcut_retain.text"/>
+                  </el-checkbox>
+                </el-collapse-item>
+              </el-collapse>
+            </el-form-item>
+          </el-form>
         </template>
       </AppModal>
     </el-col>
@@ -49,7 +64,7 @@
 </template>
 
 <script>
-import { Cancel, Link, Plus } from 'mdue';
+import { Cancel, Link, Minus, Plus } from 'mdue';
 import { Translate } from '../../service/Translation.js';
 import { cards, main } from '../../Sizes.js';
 import AppInput from '../atoms/AppInput.vue';
@@ -71,6 +86,7 @@ export default {
     Plus,
     Cancel,
     Link,
+    Minus,
   },
   emits: ['set-active-component'],
   inject: ['mqtt', 'shortcuts'],
@@ -78,27 +94,26 @@ export default {
     const data = {
       shortcutName: '',
       saveModal: false,
-      shortcutData: {},
       Translate,
       shortcutList: [],
+      events: [],
       cards,
       main,
     };
 
     this.shortcuts.list().then((shortcuts) => this.shortcutList = shortcuts);
 
-    if (this.mqtt.isHooked() && this.$attrs.saveModal && this.$attrs.shortcutData) {
-      this.mqtt.unsetHook();
-
+    if (this.mqtt.isHooked() && this.$attrs.saveModal && this.$attrs.events) {
       data['saveModal'] = this.$attrs.saveModal;
-      data['shortcutData'] = this.$attrs.shortcutData;
+      data['events'] = this.$attrs.events;
     }
 
     return data;
   },
   methods: {
     onAddShortcut() {
-      this.mqtt.setHook(this.onPublished.bind(this));
+      let events = [];
+      this.mqtt.setHook(this.onPublished.bind(this, events));
 
       this.$emit('set-active-component', { contentComponent: AppListingView });
     },
@@ -109,32 +124,41 @@ export default {
     },
 
     onModalClose() {
+      this.mqtt.unsetHook();
       this.saveModal = false;
-      this.shortcutData = {};
+      this.events = [];
     },
 
     onModalSubmit() {
-      this.shortcuts.add(this.shortcutName, [this.shortcutData]);
+      this.mqtt.unsetHook();
+      this.shortcuts.add(this.shortcutName, this.events);
       this.shortcuts.list().then((shortcuts) => this.shortcutList = shortcuts);
       this.saveModal = false;
-      this.shortcutData = {};
+      this.events = [];
 
       this.$forceUpdate();
     },
 
-    onPublished(topic, payload, options) {
-      const shortcutData = {
+    deleteEvent(index, mouseEvent) {
+      mouseEvent.stopPropagation();
+      this.events.splice(index, 1);
+    },
+
+    onPublished(events, topic, payload, options) {
+      if (events.length <= 0) {
+        this.$emit('set-active-component', {
+          contentComponent: 'AppShortcutsView',
+          data: {
+            events: events,
+            saveModal: true,
+          },
+        });
+      }
+
+      events.push({
         topic,
         payload,
         options,
-      };
-
-      this.$emit('set-active-component', {
-        contentComponent: 'AppShortcutsView',
-        data: {
-          shortcutData,
-          saveModal: true,
-        },
       });
     },
 
@@ -167,18 +191,8 @@ h1 {
   color: var(--color--error-main);
 }
 
-.shortcut-detail {
-  margin-top: 1em;
-}
-
-.shortcut-payload-input {
-  background: none;
-  resize: none;
-  width: 100%;
-  height: 10em;
-  font-size: 1em;
-  box-sizing: border-box;
-  transition: outline 10000s 10000s;
+.button--delete {
+  margin: 0 .5em;
 }
 
 .card--wrapper {

@@ -2,7 +2,7 @@
   <transition name="fade">
     <div class="modal--background" v-if="modalShown" @click="$emit('modal-close')">
       <div class="modal--list" @click.stop>
-        <AppContainer full flex vertical>
+        <AppContainer full flex vertical no-wrap>
           <template v-slot:content>
             <div class="modal--header">
               <h1 class="modal--title">
@@ -14,12 +14,12 @@
               <slot/>
             </div>
             <div class="modal--footer" v-if="!noSubmit || !noCancel">
-              <AppButton primary v-if="!noSubmit" @click="$emit('modal-submit')">
+              <el-button type="success" v-if="!noSubmit" @click="$emit('modal-submit')">
                 <trans :string="submitText"/>
-              </AppButton>
-              <AppButton v-if="!noCancel" @click="$emit('modal-cancel')">
+              </el-button>
+              <el-button type="danger" v-if="!noCancel" @click="$emit('modal-cancel')">
                 <trans :string="closeText"/>
-              </AppButton>
+              </el-button>
             </div>
           </template>
         </AppContainer>
@@ -30,21 +30,31 @@
 </template>
 
 <script>
-import AppContainer from './AppContainer.vue';
-import AppButton from '../atoms/AppButton.vue';
 import { Close } from 'mdue';
+import AppButton from '../atoms/AppButton.vue';
+import AppContainer from './AppContainer.vue';
 
 export default {
-  name: "AppModal",
-  components: { AppButton, AppContainer, Back: Close },
+  name: 'AppModal',
+  components: {
+    AppButton,
+    AppContainer,
+    Back: Close,
+  },
   props: {
     modalShown: Boolean,
     noSubmit: Boolean,
     noCancel: Boolean,
-    closeText: { type: String, default: 'modal.button_close' },
-    submitText: { type: String, default: 'modal.button_submit' }
+    closeText: {
+      type: String,
+      default: 'modal.button_close',
+    },
+    submitText: {
+      type: String,
+      default: 'modal.button_submit',
+    },
   },
-  emits: ['modal-close', 'modal-cancel', 'modal-submit']
+  emits: ['modal-close', 'modal-cancel', 'modal-submit'],
 };
 </script>
 
@@ -117,7 +127,8 @@ export default {
 .modal--content {
   width: 100%;
   flex: 1;
-  padding-bottom: 1em;
+  margin-bottom: 1em;
+  overflow: auto;
 }
 
 .modal--footer {

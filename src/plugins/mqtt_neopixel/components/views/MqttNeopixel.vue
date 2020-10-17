@@ -1,7 +1,7 @@
 <template>
-  <AppContainer>
-    <template v-slot:content>
-      <MqttNeopixelStripSettings :strip="strip"/>
+  <el-row>
+    <el-col v-bind="main">
+      <MqttNeopixelStripSettings :strip="strip" :client-name="clientName"/>
 
       <h2>
         <trans string="app.mqtt_neopixel.title.color_mode"/>
@@ -19,11 +19,11 @@
         </AppTab>
       </AppTabs>
 
-      <AppButton @click="updateStrip" primary>
+      <el-button type="success" @click="updateStrip">
         <trans string="app.mqtt_neopixel.button.submit.text"/>
-      </AppButton>
-    </template>
-  </AppContainer>
+      </el-button>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -34,6 +34,7 @@ import AppContainer from '../../../base/components/molecules/AppContainer.vue';
 import AppTab from '../../../base/components/templates/AppTab.vue';
 import AppTabs from '../../../base/components/templates/AppTabs.vue';
 import { Translate } from '../../../base/service/Translation.js';
+import { main } from '../../../base/Sizes.js';
 import MqttNeopixelColor from '../templates/MqttNeopixelColor.vue';
 import MqttNeopixelGradient from '../templates/MqttNeopixelGradient.vue';
 import MqttNeopixelStripSettings from '../templates/MqttNeopixelStripSettings.vue';
@@ -75,6 +76,7 @@ export default {
     });
 
     return {
+      main,
       strip: props.strips.strips[props.clientName] || {},
       tabs,
       Translate,
@@ -83,13 +85,7 @@ export default {
 
   methods: {
     updateStrip() {
-      this.mqtt.publish(this.clientName + '/type', this.strip.type.toString(), { retain: true });
-      this.mqtt.publish(this.clientName + '/pin', this.strip.pin.toString(), { retain: true });
-      this.mqtt.publish(this.clientName + '/offset', this.strip.offset.toString(), { retain: true });
       this.mqtt.publish(this.clientName + '/step', this.strip.step.toString(), { retain: true });
-      this.mqtt.publish(this.clientName + '/count', this.strip.count.toString(), { retain: true });
-      this.mqtt.publish(this.clientName + '/delay', this.strip.delay.toString(), { retain: true });
-      this.mqtt.publish(this.clientName + '/brightness', this.strip.brightness.toString(), { retain: true });
       this.mqtt.publish(this.clientName + '/colors', JSON.stringify(this.strip.colors), { retain: true });
     },
   },

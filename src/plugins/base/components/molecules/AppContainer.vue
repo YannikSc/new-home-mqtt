@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'app-container--wrap': true, flex, full, vertical}">
+  <div :class="{'app-container--wrap': true, flex, full, vertical, 'no-wrap': noWrap}">
     <slot name="content"></slot>
   </div>
 </template>
@@ -11,6 +11,7 @@ export default {
     flex: Boolean,
     vertical: Boolean,
     full: Boolean,
+    noWrap: Boolean,
   }
 };
 </script>
@@ -30,9 +31,13 @@ export default {
 
 .app-container--wrap.flex {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
 }
+
+.app-container--wrap.flex:not(.no-wrap) {
+  flex-wrap: wrap;
+}
+
 .app-container--wrap.vertical {
   flex-direction: column;
   height: 100%;
