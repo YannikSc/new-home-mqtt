@@ -5,26 +5,26 @@
     </h2>
 
     <div class="general-settings">
-      <AppRangeInput :min="0" :max="255" v-model="strip.brightness">
+      <AppRangeInput :min="0" :max="255" v-model="strip.brightness" @update:modelValue="updateBrightness()">
         <trans string="app.mqtt_neopixel.input.brightness.text"/>
       </AppRangeInput>
-      <AppRangeInput :min="10" :max="1000" v-model="strip.delay" invert>
+      <AppRangeInput :min="10" :max="1000" v-model="strip.delay" invert @update:modelValue="updateDelay()">
         <trans string="app.mqtt_neopixel.input.speed.text"/>
       </AppRangeInput>
     </div>
 
     <AppCollapse :title="Translate('app.mqtt_neopixel.block.advanced_settings.title')">
       <div class="advanced-settings">
-        <AppSelect :values="stripTypes()" v-model="strip.type">
+        <AppSelect :values="stripTypes()" v-model="strip.type" @update:modelValue="updateType()">
           <trans string="app.mqtt_neopixel.advanced_settings.type"/>
         </AppSelect>
-        <AppInput type="number" v-model="strip.pin">
+        <AppInput type="number" v-model="strip.pin" @update:modelValue="updatePin()">
           <trans string="app.mqtt_neopixel.advanced_settings.pin"/>
         </AppInput>
-        <AppInput type="number" v-model="strip.offset">
+        <AppInput type="number" v-model="strip.offset" @update:modelValue="updateOffset()">
           <trans string="app.mqtt_neopixel.advanced_settings.offset"/>
         </AppInput>
-        <AppInput type="number" v-model="strip.count">
+        <AppInput type="number" v-model="strip.count" @update:modelValue="updateCount()">
           <trans string="app.mqtt_neopixel.advanced_settings.count"/>
         </AppInput>
       </div>
@@ -67,65 +67,65 @@ export default {
   },
   watch: {
     'strip.brightness'(updated) {
-      clearTimeout(this.timeouts.brightness);
-      this.timeouts.brightness = setTimeout(this.updateBrightness.bind(this), 500);
-
       this.strip.brightness = parseInt(updated);
     },
     'strip.type'(updated) {
-      clearTimeout(this.timeouts.type);
-      this.timeouts.type = setTimeout(this.updateType.bind(this), 500);
-
       this.strip.type = parseInt(updated);
     },
     'strip.pin'(updated) {
-      clearTimeout(this.timeouts.pin);
-      this.timeouts.pin = setTimeout(this.updatePin.bind(this), 500);
-
       this.strip.pin = parseInt(updated);
     },
     'strip.delay'(updated) {
-      clearTimeout(this.timeouts.delay);
-      this.timeouts.delay = setTimeout(this.updateDelay.bind(this), 500);
-
       this.strip.delay = parseInt(updated);
     },
     'strip.count'(updated) {
-      clearTimeout(this.timeouts.count);
-      this.timeouts.count = setTimeout(this.updateCount.bind(this), 500);
-
       this.strip.count = parseInt(updated);
     },
     'strip.offset'(updated) {
-      clearTimeout(this.timeouts.offset);
-      this.timeouts.offset = setTimeout(this.updateOffset.bind(this), 500);
-
       this.strip.offset = parseInt(updated);
     },
   },
   methods: {
     updateType() {
-      this.mqtt.publish(this.clientName + '/type', this.strip.type.toString(), { retain: true });
+      clearTimeout(this.timeouts.type);
+      this.timeouts.type = setTimeout(() => {
+        this.mqtt.publish(this.clientName + '/type', this.strip.type.toString(), { retain: true });
+      }, 500);
     },
 
     updatePin() {
-      this.mqtt.publish(this.clientName + '/pin', this.strip.pin.toString(), { retain: true });
+      clearTimeout(this.timeouts.pin);
+      this.timeouts.pin = setTimeout(() => {
+        this.mqtt.publish(this.clientName + '/pin', this.strip.pin.toString(), { retain: true });
+      }, 500);
     },
 
     updateOffset() {
-      this.mqtt.publish(this.clientName + '/offset', this.strip.offset.toString(), { retain: true });
+      clearTimeout(this.timeouts.offset);
+      this.timeouts.offset = setTimeout(() => {
+        this.mqtt.publish(this.clientName + '/offset', this.strip.offset.toString(), { retain: true });
+      }, 500);
     },
 
     updateCount() {
-      this.mqtt.publish(this.clientName + '/count', this.strip.count.toString(), { retain: true });
+      clearTimeout(this.timeouts.count);
+      this.timeouts.count = setTimeout(() => {
+        this.mqtt.publish(this.clientName + '/count', this.strip.count.toString(), { retain: true });
+      }, 500);
     },
 
     updateDelay() {
-      this.mqtt.publish(this.clientName + '/delay', this.strip.delay.toString(), { retain: true });
+      clearTimeout(this.timeouts.brightness);
+      this.timeouts.brightness = setTimeout(() => {
+        this.mqtt.publish(this.clientName + '/delay', this.strip.delay.toString(), { retain: true });
+      }, 500);
     },
 
     updateBrightness() {
-      this.mqtt.publish(this.clientName + '/brightness', this.strip.brightness.toString(), { retain: true });
+      clearTimeout(this.timeouts.delay);
+      this.timeouts.delay = setTimeout(() => {
+        this.mqtt.publish(this.clientName + '/brightness', this.strip.brightness.toString(), { retain: true });
+      }, 500);
     },
 
     stripTypes() {
