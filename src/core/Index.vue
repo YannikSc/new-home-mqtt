@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {markRaw} from '@vue/reactivity';
+import { markRaw } from '@vue/reactivity';
 
 const DefaultComponent = 'app-default-view';
 
@@ -42,21 +42,32 @@ export default {
     return {
       menuVisible: false,
       focusedComponent: component,
-      componentData: data
+      componentData: data,
     };
   },
   methods: {
-    updateComponent({ contentComponent, data }) {
+    updateComponent({
+      contentComponent,
+      hash,
+      data,
+    }) {
       const state = window.history.state || {};
       const current = state.component;
       const name = contentComponent.name || contentComponent;
+      hash = hash || name;
 
-      if (this.isComponentRegistered(name) && name !== current) {
-        window.history.pushState({ component: name, data }, document.title, '#' + name);
+      if (this.isComponentRegistered(name) && (name !== current || hash !== location.hash)) {
+        window.history.pushState({
+          component: name,
+          data,
+        }, document.title, '#' + hash);
       }
 
       if (!this.isComponentRegistered(name)) {
-        window.history.pushState({ component: name, data }, document.title, '#');
+        window.history.pushState({
+          component: name,
+          data,
+        }, document.title, '#');
       }
 
       this.componentData = data;
@@ -83,14 +94,14 @@ export default {
         component = DefaultComponent;
       }
 
-      this.focusedComponent = component;
       this.componentData = data;
+      this.focusedComponent = component;
     },
     isComponentRegistered(component) {
       const components = Object.keys(this.app._context.components);
 
       return components.indexOf(component) !== -1;
-    }
-  }
+    },
+  },
 };
 </script>

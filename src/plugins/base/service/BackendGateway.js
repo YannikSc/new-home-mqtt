@@ -1,4 +1,5 @@
 import settings from '../../../settings.js';
+import { Dashboard } from './struct/Dashboard.js';
 
 export class BackendGateway {
     url = '';
@@ -55,6 +56,27 @@ export class BackendGateway {
      */
     deleteShortcut(name) {
         return fetch(this._prepareRequest('DELETE', `/shortcut/${name}`)).then(response => response.json());
+    }
+
+    /**
+     * @return {Promise<[Dashboard]>}
+     */
+    listDashboards() {
+        return new Promise((resolve, reject) => {
+            resolve([
+                new Dashboard('Example', []),
+                new Dashboard('Filled Example', ['Test', 'Test 2', 'Test 3']),
+            ]);
+        });
+    }
+
+    /**
+     * @return {Promise<[Dashboard]>}
+     */
+    getDashboard(name) {
+        return new Promise((resolve, reject) => {
+            resolve(new Dashboard('Filled Example', ['Test', 'Test 2', 'Test 3']));
+        });
     }
 
     /**

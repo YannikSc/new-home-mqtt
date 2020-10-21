@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <el-col v-bind="colMain">
+    <el-col v-bind="main">
       <h1>
         <trans string="menu.title_apps"/>
       </h1>
@@ -25,7 +25,7 @@ export default {
   emits: ['set-active-component'],
   icon: Apps,
   data() {
-    return { colMain: main };
+    return { main: main };
   },
   methods: {
     onSetActiveComponent(app) {

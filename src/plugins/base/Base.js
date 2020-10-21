@@ -1,8 +1,10 @@
 import { ImageBroken } from 'mdue';
 import AppString from './components/atoms/AppString.vue';
 import AppContent from './components/templates/AppContent.vue';
+import AppDashboardDetail from './components/templates/AppDashboardDetail.vue';
 import AppHeader from './components/templates/AppHeader.vue';
 import AppMenu from './components/templates/AppMenu.vue';
+import AppDashboardEditor from './components/views/AppDashboardEditor.vue';
 import AppListingView from './components/views/AppListingView.vue';
 import AppSettingsView from './components/views/AppSettingsView.vue';
 import AppShortcutsView from './components/views/AppShortcutsView.vue';
@@ -21,6 +23,7 @@ import Strings from './Strings';
 function addApps(apps) {
     apps.add(new App(Translate('app.settings.title'), AppSettingsView.icon, AppSettingsView));
     apps.add(new App(Translate('app.shortcuts.title'), AppShortcutsView.icon, AppShortcutsView));
+    apps.add(new App(Translate('app.dashboard_editor.title'), AppDashboardEditor.icon, AppDashboardEditor));
 }
 
 /**
@@ -66,5 +69,7 @@ export default {
         app.component('AppListingView', AppListingView);
         app.component('AppSettingsView', AppSettingsView);
         app.component('AppShortcutsView', AppShortcutsView);
+        app.component('AppDashboardEditor', AppDashboardEditor);
+        app.component('AppDashboardDetail', AppDashboardDetail);
     },
 };

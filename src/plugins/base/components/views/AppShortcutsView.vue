@@ -145,8 +145,6 @@ export default {
     },
 
     onPublished(events, topic, payload, options) {
-      console.log(topic);
-
       if (events.length <= 0) {
         this.$emit('set-active-component', {
           contentComponent: 'AppShortcutsView',

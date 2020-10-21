@@ -6,10 +6,16 @@
 import AppListingView from '../views/AppListingView.vue';
 
 export default {
-  name: "AppContent",
+  name: 'AppContent',
   props: {
-    focusedComponent: { type: [Object, String], default: AppListingView },
-    componentData: {type: Object, default: {}},
-  }
+    focusedComponent: {
+      type: [Object, String],
+      default: AppListingView,
+    },
+    componentData: {
+      type: Object,
+      default: {},
+    },
+  },
 };
 </script>

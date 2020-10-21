@@ -20,7 +20,7 @@ export default function (translation) {
         'menu.title_apps': 'Apps',
         'modal.button_close': 'Cancel',
         'modal.button_submit': 'Submit',
-
+        'app.dashboard_editor.title': 'Dashboard Editor',
     });
     translation.addStrings('de', {
         'app.select.value.default.name': 'Wählen',
@@ -36,6 +36,5 @@ export default function (translation) {
         'menu.title_apps': 'Anwendungen',
         'modal.button_close': 'Abbrechen',
         'modal.button_submit': 'Absenden',
-
     });
 }
