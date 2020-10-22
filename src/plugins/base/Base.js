@@ -4,15 +4,18 @@ import AppContent from './components/templates/AppContent.vue';
 import AppDashboardDetail from './components/templates/AppDashboardDetail.vue';
 import AppHeader from './components/templates/AppHeader.vue';
 import AppMenu from './components/templates/AppMenu.vue';
+import GroupItemTypeButtonEditor from './components/templates/GroupItemTypeButtonEditor.vue';
 import AppDashboardEditor from './components/views/AppDashboardEditor.vue';
 import AppListingView from './components/views/AppListingView.vue';
 import AppSettingsView from './components/views/AppSettingsView.vue';
 import AppShortcutsView from './components/views/AppShortcutsView.vue';
 import AppManager from './service/AppManager';
 import { DefaultBackendGateway } from './service/BackendGateway.js';
+import { DefaultGroupTypeManager } from './service/GroupTypeManager.js';
 import { DefaultMqttManager } from './service/MqttManager.js';
 import ShortcutManager from './service/ShortcutManager.js';
 import App from './service/struct/App';
+import { GroupItemType } from './service/struct/GroupItemType.js';
 import Translation from './service/Translation';
 import { Translate } from './service/Translation.js';
 import Strings from './Strings';
@@ -45,6 +48,17 @@ function addAppListener(apps, mqtt, app) {
     });
 }
 
+/**
+ * @param {GroupTypeManager} groupItemTypeManager
+ */
+function addGroupItemTypes(groupItemTypeManager) {
+    groupItemTypeManager.addType(new GroupItemType(
+        'button',
+        'GroupItemTypeButtonEditor',
+        'GroupItemTypeButton'),
+    );
+}
+
 export default {
     /**
      * @param {App<Element>} app
@@ -54,12 +68,14 @@ export default {
 
         addApps(AppManager);
         addAppListener(AppManager, DefaultMqttManager, app);
+        addGroupItemTypes(DefaultGroupTypeManager);
 
         app.provide('translation', Translation);
         app.provide('apps', AppManager);
         app.provide('mqtt', DefaultMqttManager);
         app.provide('shortcuts', ShortcutManager);
         app.provide('backend', DefaultBackendGateway);
+        app.provide('group_items', DefaultGroupTypeManager);
 
         app.component('app-header', AppHeader);
         app.component('app-menu', AppMenu);
@@ -71,5 +87,6 @@ export default {
         app.component('AppShortcutsView', AppShortcutsView);
         app.component('AppDashboardEditor', AppDashboardEditor);
         app.component('AppDashboardDetail', AppDashboardDetail);
+        app.component('GroupItemTypeButtonEditor', GroupItemTypeButtonEditor);
     },
 };

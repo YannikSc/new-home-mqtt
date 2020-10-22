@@ -1,5 +1,7 @@
 import settings from '../../../settings.js';
+import { ButtonGroupItem } from './struct/ButtonGroupItem.js';
 import { Dashboard } from './struct/Dashboard.js';
+import { Group } from './struct/Group.js';
 
 export class BackendGateway {
     url = '';
@@ -75,7 +77,32 @@ export class BackendGateway {
      */
     getDashboard(name) {
         return new Promise((resolve, reject) => {
-            resolve(new Dashboard('Filled Example', ['Test', 'Test 2', 'Test 3']));
+            resolve(new Dashboard(name, ['Test', 'Test 2', 'Test 3']));
+        });
+    }
+
+    /**
+     * @param {string} name
+     */
+    getGroup(name) {
+        return new Promise((resolve, reject) => {
+            resolve(new Group(name, 24, 0, [
+                new ButtonGroupItem('Test', 'unknown'),
+            ]));
+        });
+    }
+
+    /**
+     * @param {string} name
+     * @param {Group} group
+     */
+    postGroup(name, group) {
+        console.log('Saving group ' + name, group);
+
+        return new Promise((resolve, reject) => {
+            resolve(new Group(name, 24, 0, [
+                new ButtonGroupItem('Test', 'unknown'),
+            ]));
         });
     }
 
