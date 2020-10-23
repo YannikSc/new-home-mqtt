@@ -8,7 +8,9 @@
 
     <AppModal :modal-shown="!!group" @modal-close="cancelGroupEdit" @modal-cancel="cancelGroupEdit"
               @modal-submit="saveGroup">
-      <template #title>Edit {{ group.name }}</template>
+      <template #title>
+        <span><trans string="app.dashboard.detail.edit_group.title"/> "{{ group.name }}"</span>
+      </template>
       <template #default>
         <el-form @submit="$event.preventDefault()" label-width="120px">
           <el-form-item>
@@ -25,10 +27,17 @@
           </el-form-item>
         </el-form>
 
+        <p>
+          <trans string="app.dashboard.detail.edit_group.elements_title"/>
+        </p>
+
         <ul class="group--items">
           <li v-for="(item, key) in group.items" class="group-item">
-            <span>{{ item.name }}</span>
-            <el-button icon="el-icon-edit" type="primary" circle @click="selectGroupItem(key, item)" size="small"/>
+            <p>{{ item.name }}</p>
+            <div class="group-item--actions">
+              <el-button icon="el-icon-edit" type="primary" circle @click="selectGroupItem(key, item)" size="small"/>
+              <el-button type="danger" @click="deleteGroupItem(key)" icon="el-icon-delete-solid" size="small" circle/>
+            </div>
           </li>
         </ul>
 
@@ -39,9 +48,13 @@
     <AppModal :modal-shown="!!groupItem && groupItemIndex !== null" @modal-close="cancelGroupItemEdit"
               @modal-cancel="cancelGroupItemEdit"
               @modal-submit="saveGroupItem">
-      <template #title>Edit {{ groupItem.name }}</template>
+      <template #title>
+        <span><trans string="app.dashboard.detail.edit_group.title"/> "{{ groupItem.name }}"</span>
+      </template>
       <template #default>
-        <p class="sub-title">Item Name</p>
+        <p class="sub-title">
+          <trans string="app.dashboard.detail.add_group_item.name_title"/>
+        </p>
         <el-input v-model="groupItem.name" class="group-item--name"/>
 
         <component :is="group_items.getType(groupItem.type).editorComponent" :data="groupItem.data"/>
@@ -51,9 +64,13 @@
     <AppModal :modal-shown="!!groupItem && groupItemIndex === null" @modal-close="cancelGroupItemEdit"
               @modal-cancel="cancelGroupItemEdit"
               @modal-submit="createEmptyGroupItem">
-      <template #title>Edit {{ groupItem.name }}</template>
+      <template #title>
+        <span><trans string="app.dashboard.detail.create_group_item.title"/> "{{ groupItem.name }}"</span>
+      </template>
       <template #default>
-        <p class="sub-title">Item Name</p>
+        <p class="sub-title">
+          <trans string="app.dashboard.detail.add_group_item.name_title"/>
+        </p>
         <el-input v-model="groupItem.name" class="group-item--name"/>
 
         <label>
@@ -120,6 +137,10 @@ export default {
       this.groupItem = group;
     },
 
+    deleteGroupItem(key) {
+      this.group.items.splice(key, 1);
+    },
+
     cancelGroupItemEdit() {
       this.groupItemIndex = null;
       this.groupItem = null;
@@ -170,7 +191,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5em 0;
+  padding: 0.2em 0;
 }
 
 .group-item:not(:last-of-type) {

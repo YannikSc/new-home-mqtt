@@ -23,6 +23,10 @@ export default function (translation) {
         'app.dashboard_editor.title': 'Dashboard Editor',
         'app.dashboard.details.edit.input_order.label': 'Order',
         'app.dashboard.details.edit.input_size.label': 'Size',
+        'app.dashboard.detail.edit_group.title': 'Edit',
+        'app.dashboard.detail.create_group_item.title': 'Create',
+        'app.dashboard.detail.edit_group.elements_title': 'UI Elements',
+        'app.dashboard.detail.add_group_item.name_title': 'Item Name',
     });
     translation.addStrings('de', {
         'app.select.value.default.name': 'Wählen',
@@ -40,5 +44,10 @@ export default function (translation) {
         'modal.button_submit': 'Absenden',
         'app.dashboard.details.edit.input_order.label': 'Position',
         'app.dashboard.details.edit.input_size.label': 'Größe',
+        'app.dashboard.detail.edit_group.title': 'Bearbeite',
+        'app.dashboard.detail.create_group_item.title': 'Erstellen',
+        'app.dashboard.detail.edit_group.elements_title': 'UI Elemente',
+        'app.dashboard.detail.add_group_item.name_title': 'Item Name'
+        ,
     });
 }

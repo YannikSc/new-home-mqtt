@@ -87,7 +87,7 @@ export class BackendGateway {
     getGroup(name) {
         return new Promise((resolve, reject) => {
             resolve(new Group(name, 24, 0, [
-                new ButtonGroupItem('Test', 'unknown'),
+                new ButtonGroupItem('Test'),
             ]));
         });
     }

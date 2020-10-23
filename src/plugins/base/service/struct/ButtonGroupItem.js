@@ -2,25 +2,17 @@ import { GroupItem } from './GroupItem.js';
 
 export class ButtonGroupItem extends GroupItem {
     /**
-     * @type {string}
-     */
-    name = '';
-
-    /**
-     * @type {{shortcut: string}}
+     * @type {{shortcuts: [string]}}
      */
     data = {
-        shortcut: '',
+        shortcuts: [],
     };
 
     /**
-     * @type {string}
+     * @param {string} name
+     * @param {[string]} shortcuts
      */
-    type = 'button';
-
-    constructor(name, shortcut) {
-        super();
-        this.name = name;
-        this.data.shortcut = shortcut;
+    constructor(name, shortcuts = []) {
+        super(name, 'button', { shortcuts: shortcuts });
     }
 }
