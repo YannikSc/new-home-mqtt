@@ -1,12 +1,15 @@
 <template>
   <div v-if="dashboard && groups">
-    <h2>{{ dashboard.name }}</h2>
+    <h2>{{ dashboard.name }} <el-button type="success" icon="el-icon-plus" @click="addGroup" size="small" circle/></h2>
 
-    <el-card v-for="(g, key) in groups" class="dashboard-card" @click="selectGroup(key, g.clone())">
-      {{ g.name }}
+    <el-card v-for="(g, key) in groups" class="group-card" @click="selectGroup(key, g.clone())">
+      <div class="group-card--content">
+        <p>{{ g.name }}</p>
+        <el-button @click.stop="deleteGroup(key)" type="danger" icon="el-icon-delete-solid" circle size="medium"/>
+      </div>
     </el-card>
 
-    <AppModal :modal-shown="!!group" @modal-close="cancelGroupEdit" @modal-cancel="cancelGroupEdit"
+    <AppModal :modal-shown="!!group && groupIndex !== null" @modal-close="cancelGroupEdit" @modal-cancel="cancelGroupEdit"
               @modal-submit="saveGroup">
       <template #title>
         <span><trans string="app.dashboard.detail.edit_group.title"/> "{{ group.name }}"</span>
@@ -45,6 +48,21 @@
       </template>
     </AppModal>
 
+    <AppModal :modal-shown="!!group && groupIndex === null" @modal-close="cancelGroupEdit"
+              @modal-cancel="cancelGroupEdit"
+              @modal-submit="createEmptyGroup">
+      <template #title>
+        <span><trans string="app.dashboard.detail.create_group.title"/></span>
+      </template>
+      <template #default>
+        <p class="sub-title">
+          <trans string="app.dashboard.detail.add_group_item.name_title"/>
+        </p>
+
+        <el-input v-model="group.name" class="group-item--name"/>
+      </template>
+    </AppModal>
+
     <AppModal :modal-shown="!!groupItem && groupItemIndex !== null" @modal-close="cancelGroupItemEdit"
               @modal-cancel="cancelGroupItemEdit"
               @modal-submit="saveGroupItem">
@@ -65,7 +83,7 @@
               @modal-cancel="cancelGroupItemEdit"
               @modal-submit="createEmptyGroupItem">
       <template #title>
-        <span><trans string="app.dashboard.detail.create_group_item.title"/> "{{ groupItem.name }}"</span>
+        <span><trans string="app.dashboard.detail.create_group_item.title"/></span>
       </template>
       <template #default>
         <p class="sub-title">
@@ -86,6 +104,7 @@
 </template>
 
 <script>
+import { Group } from '../../service/struct/Group.js';
 import { GroupItem } from '../../service/struct/GroupItem.js';
 import AppModal from '../molecules/AppModal.vue';
 
@@ -120,10 +139,27 @@ export default {
       this.groupIndex = key;
       this.group = group;
     },
+
+    deleteGroup(key) {
+      const groupName = this.groups[key].name;
+      this.backend.deleteGroup(groupName);
+      this.groups.splice(key, 1);
+    },
+
+    addGroup() {
+      this.group = new Group('New Group', 12, 0);
+    },
+
+    createEmptyGroup() {
+      this.groups.push(this.group);
+      this.groupIndex = this.groups.length - 1;
+    },
+
     cancelGroupEdit() {
       this.group = null;
       this.groupIndex = null;
     },
+
     saveGroup() {
       this.groups.splice(this.groupIndex, 1, this.group);
       this.backend.postGroup(this.group.name, this.group);
@@ -176,8 +212,14 @@ export default {
 </script>
 
 <style scoped>
-.dashboard-card {
+.group-card {
   margin-bottom: 1em;
+}
+
+.group-card--content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .group--items {

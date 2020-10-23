@@ -106,6 +106,10 @@ export class BackendGateway {
         });
     }
 
+    deleteGroup(name) {
+        console.log('Delete group: ' + name);
+    }
+
     /**
      * @param {string} method
      * @param {string} url
