@@ -97,7 +97,7 @@ export class BackendGateway {
      * @param {Group} group
      */
     postGroup(name, group) {
-        console.log('Saving group ' + name, group);
+        console.log('Saving group ' + name, JSON.stringify(group));
 
         return new Promise((resolve, reject) => {
             resolve(new Group(name, 24, 0, [

@@ -1,10 +1,12 @@
 <template>
   <div>
-    <p class="sub-title">Shortcut</p>
-    <el-select v-model="data.shortcut">
-      <el-option v-for="shortcut in shortcuts" :value="shortcut.name" :label="shortcut.name"/>
-    </el-select>
-    <el-input v-model="data.shortcut" type="text"/>
+    <label>
+      <span class="sub-title">Shortcut</span>
+      <!-- TODO: Replace with element-plus version if its fixed -->
+      <select v-model="data.shortcut">
+        <option v-for="(_, name) in shortcuts" :value="name">{{ name }}</option>
+      </select>
+    </label>
   </div>
 </template>
 
@@ -24,3 +26,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.sub-title {
+  display: inline-block;
+  width: 100%;
+}
+</style>
