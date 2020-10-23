@@ -31,10 +31,13 @@
             <el-button icon="el-icon-edit" type="primary" circle @click="selectGroupItem(key, item)" size="small"/>
           </li>
         </ul>
+
+        <el-button @click="addGroupItem" type="success" icon="el-icon-plus" size="medium" class="group-item--add"/>
       </template>
     </AppModal>
 
-    <AppModal :modal-shown="!!groupItem" @modal-close="cancelGroupItemEdit" @modal-cancel="cancelGroupItemEdit"
+    <AppModal :modal-shown="!!groupItem && groupItemIndex !== null" @modal-close="cancelGroupItemEdit"
+              @modal-cancel="cancelGroupItemEdit"
               @modal-submit="saveGroupItem">
       <template #title>Edit {{ groupItem.name }}</template>
       <template #default>
@@ -44,10 +47,29 @@
         <component :is="group_items.getType(groupItem.type).editorComponent" :data="groupItem.data"/>
       </template>
     </AppModal>
+
+    <AppModal :modal-shown="!!groupItem && groupItemIndex === null" @modal-close="cancelGroupItemEdit"
+              @modal-cancel="cancelGroupItemEdit"
+              @modal-submit="createEmptyGroupItem">
+      <template #title>Edit {{ groupItem.name }}</template>
+      <template #default>
+        <p class="sub-title">Item Name</p>
+        <el-input v-model="groupItem.name" class="group-item--name"/>
+
+        <label>
+          <span class="group-item--type-label sub-title">Type</span>
+          <!-- TODO: replace with element-plus version if fixed -->
+          <select v-model="groupItem.type">
+            <option v-for="groupItem in group_items.listTypes()" :value="groupItem">{{ groupItem }}</option>
+          </select>
+        </label>
+      </template>
+    </AppModal>
   </div>
 </template>
 
 <script>
+import { GroupItem } from '../../service/struct/GroupItem.js';
 import AppModal from '../molecules/AppModal.vue';
 
 export default {
@@ -109,6 +131,14 @@ export default {
       this.groupItem = null;
     },
 
+    addGroupItem() {
+      this.groupItem = new GroupItem('New Item');
+    },
+
+    createEmptyGroupItem() {
+      this.group.items.push(this.groupItem);
+      this.groupItemIndex = this.group.items.length - 1;
+    },
   },
   watch: {
     dashboard() {
@@ -129,7 +159,34 @@ export default {
   margin-bottom: 1em;
 }
 
+.group--items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em 0;
+}
+
+.group-item:not(:last-of-type) {
+  border-bottom: 1px solid var(--color--text-main);
+}
+
+.group-item--add {
+  margin-top: 1em;
+}
+
 .group-item--name {
   margin-bottom: 1em;
+}
+
+.group-item--type-label {
+  display: inline-block;
+  width: 100%;
 }
 </style>

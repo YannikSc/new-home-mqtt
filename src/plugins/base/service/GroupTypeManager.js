@@ -13,6 +13,10 @@ export class GroupTypeManager {
         this.types.push(type);
     }
 
+    /**
+     * @param {string} name
+     * @returns {GroupItemType}
+     */
     getType(name) {
         for (const type of this.types) {
             if (type.name === name) {
@@ -21,6 +25,13 @@ export class GroupTypeManager {
         }
 
         return new GroupItemType(name, '', '');
+    }
+
+    /**
+     * @returns {string[]}
+     */
+    listTypes() {
+        return this.types.map(type => type.name);
     }
 }
 
