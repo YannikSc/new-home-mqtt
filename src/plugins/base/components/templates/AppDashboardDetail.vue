@@ -145,7 +145,6 @@ export default {
     },
 
     async deleteGroup(groupName) {
-      await this.backend.deleteGroup(groupName);
       const dashboardGroup = this.dashboard.groups.indexOf(groupName);
 
       if (dashboardGroup !== -1) {
@@ -155,6 +154,7 @@ export default {
 
         this.dashboard = null;
         await this.backend.postDashboard(this.dashboardName, dashboard);
+        await this.backend.deleteGroup(groupName);
         this.dashboard = (await this.backend.getDashboard(this.dashboardName))[0];
       }
     },
@@ -164,10 +164,16 @@ export default {
     },
 
     async createEmptyGroup() {
+      let group = await this.backend.getGroup(this.group.name);
+
+      if (!group) {
+        group = await this.backend.postGroup(this.group.name, this.group);
+      }
+
+      this.group = group;
       this.groups.push(this.group);
       this.groupIndex = this.groups.length - 1;
 
-      await this.backend.postGroup(this.group.name, this.group);
       this.dashboard.groups.splice(0, this.dashboard.groups.length);
       this.groups.map((group) => this.dashboard.groups.push(group.name));
       const dashboard = this.dashboard;

@@ -1,5 +1,4 @@
 import settings from '../../../settings.js';
-import { ButtonGroupItem } from './struct/ButtonGroupItem.js';
 import { Dashboard } from './struct/Dashboard.js';
 import { Group } from './struct/Group.js';
 
@@ -38,7 +37,7 @@ export class BackendGateway {
      * @return {Promise<[Shortcut]>}
      */
     getShortcut(name) {
-        return fetch(this._prepareRequest('GET', `/shortcut/${name}`)).then(response => response.json());
+        return fetch(this._prepareRequest('GET', `/shortcut/${encodeURIComponent(name)}`)).then(response => response.json());
     }
 
     /**
@@ -48,7 +47,7 @@ export class BackendGateway {
      * @return {Promise<[Shortcut]>}
      */
     postShortcut(name, shortcut) {
-        return fetch(this._prepareRequest('POST', `/shortcut/${name}`, JSON.stringify(shortcut))).then(response => response.json());
+        return fetch(this._prepareRequest('POST', `/shortcut/${encodeURIComponent(name)}`, JSON.stringify(shortcut))).then(response => response.json());
     }
 
     /**
@@ -57,7 +56,7 @@ export class BackendGateway {
      * @return {Promise<[Shortcut]>}
      */
     deleteShortcut(name) {
-        return fetch(this._prepareRequest('DELETE', `/shortcut/${name}`)).then(response => response.json());
+        return fetch(this._prepareRequest('DELETE', `/shortcut/${encodeURIComponent(name)}`)).then(response => response.json());
     }
 
     /**
@@ -73,7 +72,7 @@ export class BackendGateway {
      * @return {Promise<[Dashboard]>}
      */
     getDashboard(name) {
-        return fetch(this._prepareRequest('GET', `/dashboard/${name}`)).then(response => response.json());
+        return fetch(this._prepareRequest('GET', `/dashboard/${encodeURIComponent(name)}`)).then(response => response.json());
     }
 
     /**
@@ -83,7 +82,7 @@ export class BackendGateway {
      * @return {Promise<[Dashboard]>}
      */
     postDashboard(name, dashboard) {
-        return fetch(this._prepareRequest('POST', `/dashboard/${name}`, JSON.stringify(dashboard))).then(response => response.json());
+        return fetch(this._prepareRequest('POST', `/dashboard/${encodeURIComponent(name)}`, JSON.stringify(dashboard))).then(response => response.json());
     }
 
     /**
@@ -92,47 +91,71 @@ export class BackendGateway {
      * @returns {Promise<[Dashboard]>}
      */
     deleteDashboard(name) {
-        return fetch(this._prepareRequest('DELETE', `/dashboard/${name}`)).then(response => response.json());
+        return fetch(this._prepareRequest('DELETE', `/dashboard/${encodeURIComponent(name)}`)).then(response => response.json());
     }
 
     /**
      * @param {string} name
      *
-     * @return {Promise<Group>}
+     * @return {Promise<Group|null>}
      */
-    getGroup(name) {
-        console.log('Getting group ' + name);
+    async getGroup(name) {
+        try {
+            const group = await (await fetch(this._prepareRequest('GET', `/group/${encodeURIComponent(name)}`))).json();
 
-        return new Promise((resolve, reject) => {
-            resolve(new Group(name, 24, 0, [
-                new ButtonGroupItem('Test'),
-            ]));
-        });
+            if (group === null || typeof group !== 'object') {
+                return null;
+            }
+
+            return Group.fromObject(group);
+        } catch (e) {
+            console.error(e);
+
+            return null;
+        }
     }
 
     /**
      * @param {string} name
      * @param {Group} group
      *
-     * @return {Promise<Group>}
+     * @return {Promise<Group|null>}
      */
-    postGroup(name, group) {
-        console.log('Saving group ' + name, JSON.stringify(group));
+    async postGroup(name, groupBody) {
+        try {
+            const group = await (await fetch(this._prepareRequest('POST', `/group/${encodeURIComponent(name)}`, JSON.stringify(groupBody)))).json();
 
-        return new Promise((resolve, reject) => {
-            resolve(new Group(name, 24, 0, [
-                new ButtonGroupItem('Test', 'unknown'),
-            ]));
-        });
+            if (group === null || typeof group !== 'object') {
+                return null;
+            }
+
+            return Group.fromObject(group);
+        } catch (e) {
+            console.error(e);
+
+            return null;
+        }
     }
 
     /**
      * @param {string} name
      *
-     * @return {Promise<Group>}
+     * @return {Promise<Group|null>}
      */
-    deleteGroup(name) {
-        console.log('Delete group: ' + name);
+    async deleteGroup(name) {
+        try {
+            const group = await (await fetch(this._prepareRequest('DELETE', `/group/${encodeURIComponent(name)}`))).json();
+
+            if (group === null || typeof group !== 'object') {
+                return null;
+            }
+
+            return Group.fromObject(group);
+        } catch (e) {
+            console.error(e);
+
+            return null;
+        }
     }
 
     /**
