@@ -13,6 +13,10 @@ else the app will only appear in the interface, once the device is started and a
 it will be gone until you restart the device. 
 The app has to be registered to vue as a global component, this can be done in the plugin file. 
 
+## The Backend/Server application
+
+[The backend can be found here](https://github.com/YannikSc/new-home-mqtt-server)
+
 ## Writing a Plugin
 
 ### Apps
