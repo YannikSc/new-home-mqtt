@@ -7,7 +7,7 @@
 
         </slot>
         <slot name="title">
-          <h1>New Home - Dashboard</h1>
+          <h1>New Home - Config</h1>
         </slot>
       </template>
     </AppContainer>

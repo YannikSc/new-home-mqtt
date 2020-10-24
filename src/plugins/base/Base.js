@@ -4,6 +4,7 @@ import AppContent from './components/templates/AppContent.vue';
 import AppDashboardDetail from './components/templates/AppDashboardDetail.vue';
 import AppHeader from './components/templates/AppHeader.vue';
 import AppMenu from './components/templates/AppMenu.vue';
+import GroupItemTypeButton from './components/templates/GroupItemTypeButton.vue';
 import GroupItemTypeButtonEditor from './components/templates/GroupItemTypeButtonEditor.vue';
 import AppDashboardEditor from './components/views/AppDashboardEditor.vue';
 import AppListingView from './components/views/AppListingView.vue';
@@ -11,6 +12,7 @@ import AppSettingsView from './components/views/AppSettingsView.vue';
 import AppShortcutsView from './components/views/AppShortcutsView.vue';
 import AppManager from './service/AppManager';
 import { DefaultBackendGateway } from './service/BackendGateway.js';
+import { DefaultDeviceManager } from './service/DeviceManager.js';
 import { DefaultGroupTypeManager } from './service/GroupTypeManager.js';
 import { DefaultMqttManager } from './service/MqttManager.js';
 import ShortcutManager from './service/ShortcutManager.js';
@@ -38,6 +40,11 @@ function addAppListener(apps, mqtt, app) {
     mqtt.subscribe('+/application', (topic, appName) => {
         const clientName = topic.replaceAll('/application', '');
         const component = app.component(appName);
+
+        DefaultDeviceManager.addDevice({
+            name: clientName,
+            application: appName,
+        });
 
         apps.add(new App(
             clientName,
@@ -76,6 +83,7 @@ export default {
         app.provide('shortcuts', ShortcutManager);
         app.provide('backend', DefaultBackendGateway);
         app.provide('group_items', DefaultGroupTypeManager);
+        app.provide('devices', DefaultDeviceManager);
 
         app.component('app-header', AppHeader);
         app.component('app-menu', AppMenu);
@@ -88,5 +96,6 @@ export default {
         app.component('AppDashboardEditor', AppDashboardEditor);
         app.component('AppDashboardDetail', AppDashboardDetail);
         app.component('GroupItemTypeButtonEditor', GroupItemTypeButtonEditor);
+        app.component('GroupItemTypeButton', GroupItemTypeButton);
     },
 };

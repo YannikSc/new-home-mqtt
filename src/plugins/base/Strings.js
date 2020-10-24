@@ -30,6 +30,7 @@ export default function (translation) {
         'app.dashboard.detail.create_group.title': 'Create group',
         'app.dashboard.detail.edit_group.elements_title': 'UI Elements',
         'app.dashboard.detail.add_group_item.name_title': 'Item Name',
+        'group_item_type_editor.neopixel.title': 'Devices',
     });
     translation.addStrings('de', {
         'app.select.value.default.name': 'Wählen',
@@ -53,7 +54,7 @@ export default function (translation) {
         'app.dashboard.detail.create_group_item.title': 'Gruppen-Item erstellen',
         'app.dashboard.detail.create_group.title': 'Gruppe erstellen',
         'app.dashboard.detail.edit_group.elements_title': 'UI Elemente',
-        'app.dashboard.detail.add_group_item.name_title': 'Item Name'
-        ,
+        'app.dashboard.detail.add_group_item.name_title': 'Item Name',
+        'group_item_type_editor.neopixel.title': 'Geräte',
     });
 }

@@ -80,18 +80,15 @@ export default {
 .color-slider--red {
   --color--shade-medium: hsla(0, 81%, 60%, 1);
   --color--shade-normal: hsla(0, 81%, 45%, 1);
-
 }
 
 .color-slider--green {
   --color--shade-medium: hsla(120, 81%, 60%, 1);
   --color--shade-normal: hsla(120, 81%, 45%, 1);
-
 }
 
 .color-slider--blue {
   --color--shade-medium: hsla(240, 81%, 60%, 1);
   --color--shade-normal: hsla(240, 81%, 45%, 1);
-
 }
 </style>

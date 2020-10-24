@@ -91,7 +91,7 @@ export default {
 
 <style scoped>
 .slider {
-  padding: 1em 0.5em;
+  padding: 0 0.5em 1em;
   --value: 0;
 }
 
