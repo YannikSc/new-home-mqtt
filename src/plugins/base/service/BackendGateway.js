@@ -64,27 +64,45 @@ export class BackendGateway {
      * @return {Promise<[Dashboard]>}
      */
     listDashboards() {
-        return new Promise((resolve, reject) => {
-            resolve([
-                new Dashboard('Example', []),
-                new Dashboard('Filled Example', ['Test', 'Test 2', 'Test 3']),
-            ]);
-        });
-    }
-
-    /**
-     * @return {Promise<[Dashboard]>}
-     */
-    getDashboard(name) {
-        return new Promise((resolve, reject) => {
-            resolve(new Dashboard(name, ['Test', 'Test 2', 'Test 3']));
-        });
+        return fetch(this._prepareRequest('GET', '/dashboard')).then(response => response.json());
     }
 
     /**
      * @param {string} name
+     *
+     * @return {Promise<[Dashboard]>}
+     */
+    getDashboard(name) {
+        return fetch(this._prepareRequest('GET', `/dashboard/${name}`)).then(response => response.json());
+    }
+
+    /**
+     * @param {string} name
+     * @param {Dashboard} dashboard
+     *
+     * @return {Promise<[Dashboard]>}
+     */
+    postDashboard(name, dashboard) {
+        return fetch(this._prepareRequest('POST', `/dashboard/${name}`, JSON.stringify(dashboard))).then(response => response.json());
+    }
+
+    /**
+     * @param {string} name
+     *
+     * @returns {Promise<[Dashboard]>}
+     */
+    deleteDashboard(name) {
+        return fetch(this._prepareRequest('DELETE', `/dashboard/${name}`)).then(response => response.json());
+    }
+
+    /**
+     * @param {string} name
+     *
+     * @return {Promise<Group>}
      */
     getGroup(name) {
+        console.log('Getting group ' + name);
+
         return new Promise((resolve, reject) => {
             resolve(new Group(name, 24, 0, [
                 new ButtonGroupItem('Test'),
@@ -95,6 +113,8 @@ export class BackendGateway {
     /**
      * @param {string} name
      * @param {Group} group
+     *
+     * @return {Promise<Group>}
      */
     postGroup(name, group) {
         console.log('Saving group ' + name, JSON.stringify(group));
@@ -106,6 +126,11 @@ export class BackendGateway {
         });
     }
 
+    /**
+     * @param {string} name
+     *
+     * @return {Promise<Group>}
+     */
     deleteGroup(name) {
         console.log('Delete group: ' + name);
     }
