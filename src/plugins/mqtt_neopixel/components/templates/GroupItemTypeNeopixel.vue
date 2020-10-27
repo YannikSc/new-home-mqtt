@@ -16,7 +16,7 @@
         <trans string="app.mqtt_neopixel.input.color.text_blue"/>
       </AppRangeInput>
       <AppRangeInput class="color-slider--white" :min="0" :max="255" v-model="color.white"
-                     @update:modelValue="updateColor">
+                     v-if="data.enable_white" @update:modelValue="updateColor">
         <trans string="app.mqtt_neopixel.input.color.text_white"/>
       </AppRangeInput>
     </div>

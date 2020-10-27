@@ -6,6 +6,8 @@ import AppHeader from './components/templates/AppHeader.vue';
 import AppMenu from './components/templates/AppMenu.vue';
 import GroupItemTypeButton from './components/templates/GroupItemTypeButton.vue';
 import GroupItemTypeButtonEditor from './components/templates/GroupItemTypeButtonEditor.vue';
+import GroupItemTypeSlider from './components/templates/GroupItemTypeSlider.vue';
+import GroupItemTypeSliderEditor from './components/templates/GroupItemTypeSliderEditor.vue';
 import AppDashboardEditor from './components/views/AppDashboardEditor.vue';
 import AppListingView from './components/views/AppListingView.vue';
 import AppSettingsView from './components/views/AppSettingsView.vue';
@@ -64,6 +66,11 @@ function addGroupItemTypes(groupItemTypeManager) {
         'GroupItemTypeButtonEditor',
         'GroupItemTypeButton'),
     );
+    groupItemTypeManager.addType(new GroupItemType(
+        'slider',
+        'GroupItemTypeSliderEditor',
+        'GroupItemTypeSlider'),
+    );
 }
 
 export default {
@@ -97,5 +104,7 @@ export default {
         app.component('AppDashboardDetail', AppDashboardDetail);
         app.component('GroupItemTypeButtonEditor', GroupItemTypeButtonEditor);
         app.component('GroupItemTypeButton', GroupItemTypeButton);
+        app.component('GroupItemTypeSlider', GroupItemTypeSlider);
+        app.component('GroupItemTypeSliderEditor', GroupItemTypeSliderEditor);
     },
 };

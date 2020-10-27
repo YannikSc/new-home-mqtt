@@ -22,6 +22,8 @@ export default function (translation) {
         'app.mqtt_neopixel.input.width.text': 'Gradient width',
         'app.mqtt_neopixel.title.color_mode': 'Color',
         'app.mqtt_neopixel.title.settings': 'Settings',
+        'group_item_type_editor.neopixel.title': 'Devices',
+        'group_item_type_editor.neopixel.enable_white': 'Enable white slider',
     });
     translation.addStrings('de', {
         'app.mqtt_neopixel.advanced_settings.count': 'Anzahl LEDs',
@@ -43,5 +45,7 @@ export default function (translation) {
         'app.mqtt_neopixel.input.width.text': 'Verlauf Breite',
         'app.mqtt_neopixel.title.color_mode': 'Farbe',
         'app.mqtt_neopixel.title.settings': 'Einstellungen',
+        'group_item_type_editor.neopixel.title': 'Geräte',
+        'group_item_type_editor.neopixel.enable_white': 'Slider für weiß',
     });
 }

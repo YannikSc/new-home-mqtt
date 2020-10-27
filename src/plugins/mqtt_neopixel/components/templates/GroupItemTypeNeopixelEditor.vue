@@ -13,6 +13,13 @@
       <el-button type="danger" @click="removeDevice(index)" icon="el-icon-delete-solid" size="small" circle/>
     </label>
 
+    <el-form>
+      <el-form-item>
+        <template #label><trans string="group_item_type_editor.neopixel.enable_white"/></template>
+        <el-checkbox v-model="data.enable_white"/>
+      </el-form-item>
+    </el-form>
+
     <el-button type="success" @click="addDevice" icon="el-icon-plus" size="medium"/>
   </div>
 </template>
