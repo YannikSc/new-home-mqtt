@@ -34,6 +34,10 @@ export default function (translation) {
         'group_item_type.slider.min': 'Min',
         'group_item_type.slider.max': 'Max',
         'group_item_type.slider.retain': 'Retain',
+        'group_item_type.switch.topic': 'Topic',
+        'group_item_type.switch.on_state': '"On" value',
+        'group_item_type.switch.off_state': '"Off" value',
+        'group_item_type.switch.retain': 'Retain',
     });
     translation.addStrings('de', {
         'app.select.value.default.name': 'Wählen',
@@ -58,6 +62,7 @@ export default function (translation) {
         'app.dashboard.detail.create_group.title': 'Gruppe erstellen',
         'app.dashboard.detail.edit_group.elements_title': 'UI Elemente',
         'app.dashboard.detail.add_group_item.name_title': 'Item Name',
-
+        'group_item_type.switch.on_state': '"An" Wert',
+        'group_item_type.switch.off_state': '"Aus" Wert',
     });
 }
