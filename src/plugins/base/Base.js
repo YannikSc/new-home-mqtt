@@ -41,8 +41,8 @@ function addApps(apps) {
  * @param {App<Element>} app
  */
 function addAppListener(apps, mqtt, app) {
-    mqtt.subscribe('+/application', (topic, appName) => {
-        const clientName = topic.replaceAll('/application', '');
+    mqtt.subscribe('+/__application', (topic, appName) => {
+        const clientName = topic.replaceAll('/__application', '');
         const component = app.component(appName);
 
         DefaultDeviceManager.addDevice({
