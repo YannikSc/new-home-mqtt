@@ -8,6 +8,8 @@ import GroupItemTypeButton from './components/templates/GroupItemTypeButton.vue'
 import GroupItemTypeButtonEditor from './components/templates/GroupItemTypeButtonEditor.vue';
 import GroupItemTypeSlider from './components/templates/GroupItemTypeSlider.vue';
 import GroupItemTypeSliderEditor from './components/templates/GroupItemTypeSliderEditor.vue';
+import GroupItemTypeStatus from './components/templates/GroupItemTypeStatus.vue';
+import GroupItemTypeStatusEditor from './components/templates/GroupItemTypeStatusEditor.vue';
 import GroupItemTypeSwitch from './components/templates/GroupItemTypeSwitch.vue';
 import GroupItemTypeSwitchEditor from './components/templates/GroupItemTypeSwitchEditor.vue';
 import AppDashboardEditor from './components/views/AppDashboardEditor.vue';
@@ -78,6 +80,11 @@ function addGroupItemTypes(groupItemTypeManager) {
         'GroupItemTypeSwitchEditor',
         'GroupItemTypeSwitch'),
     );
+    groupItemTypeManager.addType(new GroupItemType(
+        'status',
+        'GroupItemTypeStatusEditor',
+        'GroupItemTypeStatus'),
+    );
 }
 
 export default {
@@ -109,11 +116,13 @@ export default {
         app.component('AppShortcutsView', AppShortcutsView);
         app.component('AppDashboardEditor', AppDashboardEditor);
         app.component('AppDashboardDetail', AppDashboardDetail);
-        app.component('GroupItemTypeButtonEditor', GroupItemTypeButtonEditor);
         app.component('GroupItemTypeButton', GroupItemTypeButton);
+        app.component('GroupItemTypeButtonEditor', GroupItemTypeButtonEditor);
         app.component('GroupItemTypeSlider', GroupItemTypeSlider);
         app.component('GroupItemTypeSliderEditor', GroupItemTypeSliderEditor);
         app.component('GroupItemTypeSwitch', GroupItemTypeSwitch);
         app.component('GroupItemTypeSwitchEditor', GroupItemTypeSwitchEditor);
+        app.component('GroupItemTypeStatus', GroupItemTypeStatus);
+        app.component('GroupItemTypeStatusEditor', GroupItemTypeStatusEditor);
     },
 };

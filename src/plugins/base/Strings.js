@@ -38,6 +38,13 @@ export default function (translation) {
         'group_item_type.switch.on_state': '"On" value',
         'group_item_type.switch.off_state': '"Off" value',
         'group_item_type.switch.retain': 'Retain',
+        'group_item_type.status.topic': 'Topic',
+        'group_item_type.status.state_on': '"On" value',
+        'group_item_type.status.state_on_text': '"On" text',
+        'group_item_type.status.state_off': '"Off" value',
+        'group_item_type.status.state_off_text': '"Off" text',
+        'group_item_type.status.show_switch': 'Show switch',
+        'group_item_type.status.show_label': 'Show label',
     });
     translation.addStrings('de', {
         'app.select.value.default.name': 'Wählen',
@@ -64,5 +71,11 @@ export default function (translation) {
         'app.dashboard.detail.add_group_item.name_title': 'Item Name',
         'group_item_type.switch.on_state': '"An" Wert',
         'group_item_type.switch.off_state': '"Aus" Wert',
+        'group_item_type.status.state_on': '"An" Wert',
+        'group_item_type.status.state_on_text': '"An" Text',
+        'group_item_type.status.state_off': '"Aus" Wert',
+        'group_item_type.status.state_off_text': '"Aus" Text',
+        'group_item_type.status.show_switch': 'Schalter anzeigen',
+        'group_item_type.status.show_label': 'Label anzeigen',
     });
 }
