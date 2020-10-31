@@ -44,6 +44,11 @@ export default {
 </script>
 
 <style scoped>
+.apps--list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .card--wrapper {
   padding: .5em;
   box-sizing: border-box;

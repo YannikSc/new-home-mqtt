@@ -18,15 +18,28 @@
         <AppSelect :values="stripTypes()" v-model="strip.type" @update:modelValue="updateType()">
           <trans string="app.mqtt_neopixel.advanced_settings.type"/>
         </AppSelect>
-        <AppInput type="number" v-model="strip.pin" @update:modelValue="updatePin()">
-          <trans string="app.mqtt_neopixel.advanced_settings.pin"/>
-        </AppInput>
-        <AppInput type="number" v-model="strip.offset" @update:modelValue="updateOffset()">
-          <trans string="app.mqtt_neopixel.advanced_settings.offset"/>
-        </AppInput>
-        <AppInput type="number" v-model="strip.count" @update:modelValue="updateCount()">
-          <trans string="app.mqtt_neopixel.advanced_settings.count"/>
-        </AppInput>
+        <el-form label-width="120px">
+          <el-form-item>
+            <template #label>
+              <trans string="app.mqtt_neopixel.advanced_settings.pin"/>
+            </template>
+            <el-input-number v-model="strip.pin" @update:modelValue="updatePin()"/>
+          </el-form-item>
+
+          <el-form-item>
+            <template #label>
+              <trans string="app.mqtt_neopixel.advanced_settings.offset"/>
+            </template>
+            <el-input-number v-model="strip.offset" @update:modelValue="updateOffset()"/>
+          </el-form-item>
+
+          <el-form-item>
+            <template #label>
+              <trans string="app.mqtt_neopixel.advanced_settings.count"/>
+            </template>
+            <el-input-number v-model="strip.count" @update:modelValue="updateCount()"/>
+          </el-form-item>
+        </el-form>
       </div>
     </AppCollapse>
   </div>
@@ -96,21 +109,27 @@ export default {
     updatePin() {
       clearTimeout(this.timeouts.pin);
       this.timeouts.pin = setTimeout(() => {
-        this.mqtt.publish(this.clientName + '/pin', this.strip.pin.toString(), { retain: true });
+        if (this.strip.pin != null) {
+          this.mqtt.publish(this.clientName + '/pin', this.strip.pin.toString(), { retain: true });
+        }
       }, 500);
     },
 
     updateOffset() {
       clearTimeout(this.timeouts.offset);
       this.timeouts.offset = setTimeout(() => {
-        this.mqtt.publish(this.clientName + '/offset', this.strip.offset.toString(), { retain: true });
+        if (this.strip.offset != null) {
+          this.mqtt.publish(this.clientName + '/offset', this.strip.offset.toString(), { retain: true });
+        }
       }, 500);
     },
 
     updateCount() {
       clearTimeout(this.timeouts.count);
       this.timeouts.count = setTimeout(() => {
-        this.mqtt.publish(this.clientName + '/count', this.strip.count.toString(), { retain: true });
+        if (this.strip.count != null) {
+          this.mqtt.publish(this.clientName + '/count', this.strip.count.toString(), { retain: true });
+        }
       }, 500);
     },
 
