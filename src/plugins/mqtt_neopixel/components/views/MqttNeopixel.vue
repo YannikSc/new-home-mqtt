@@ -38,9 +38,11 @@ import { main } from '../../../base/Sizes.js';
 import MqttNeopixelColor from '../templates/MqttNeopixelColor.vue';
 import MqttNeopixelGradient from '../templates/MqttNeopixelGradient.vue';
 import MqttNeopixelStripSettings from '../templates/MqttNeopixelStripSettings.vue';
+import {LedStrip} from 'mdue';
 
 export default {
   name: 'MqttNeopixelWindow',
+  icon: LedStrip,
   components: {
     MqttNeopixelGradient,
     MqttNeopixelColor,

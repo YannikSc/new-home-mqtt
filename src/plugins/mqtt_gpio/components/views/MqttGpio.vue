@@ -60,9 +60,11 @@
 import AppRangeInput from '../../../base/components/atoms/AppRangeInput.vue';
 import { main } from '../../../base/Sizes.js';
 import Pinouts from '../../Pinouts.js';
+import {PowerPlugOutline} from 'mdue';
 
 export default {
   name: 'MqttGpio',
+  icon: PowerPlugOutline,
   props: {
     clientName: String,
   },
