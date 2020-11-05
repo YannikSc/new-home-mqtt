@@ -1,5 +1,5 @@
 import ElementPlus from 'element-plus';
-import 'element-plus/lib/theme-chalk/index.css';
+import '../theme-coal/lib/index.css';
 import { createApp } from 'vue';
 import plugins from '../plugins.js';
 import Dashboard from './Dashboard.vue';

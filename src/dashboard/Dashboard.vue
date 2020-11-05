@@ -121,9 +121,11 @@ h1 {
 }
 
 .dashboard-view--group {
-  background-color: #FFFFFF;
+  --fallback-shadow: rgba(0, 0, 0, 0.25);
+
+  background-color: var(--element--bg);
   border-radius: 1.25em;
-  box-shadow: 0 4px 10px 2px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 4px 2px var(--box-shadow-color);
   box-sizing: border-box;
   flex: var(--size) 0 calc(100% / 24);
   order: var(--order);
