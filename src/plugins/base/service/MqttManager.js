@@ -5,8 +5,8 @@ import { Settings } from './struct/Settings.js';
  * @returns {RegExp}
  */
 function convertTopicToRegex(topic) {
-    topic = topic.replaceAll('+', '([^/]*)');
-    topic = topic.replaceAll('#', '(.*)');
+    topic = topic.replace('+', '([^/]*)');
+    topic = topic.replace('#', '(.*)');
 
     return new RegExp(`^${topic}$`);
 }

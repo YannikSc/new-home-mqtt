@@ -1,5 +1,5 @@
 <template>
-  <div class="slider" @mousedown="onStartDrag" @touchstart.passive="onStartDrag"
+  <div class="slider" @mousedown.prevent="onStartDrag" @touchstart.prevent="onStartDrag"
        :style="'--value: ' + (value * 100) + '%' ">
     <p class="slider--title">
       <slot></slot>
@@ -27,6 +27,7 @@ export default {
   },
   data(props) {
     this.onMouseMove = this.onMouseMove.bind(this);
+    this.onStopDrag = this.onStopDrag.bind(this);
 
     let value = (props.modelValue || 0) - props.min;
     value = value / (props.max - props.min);
@@ -39,18 +40,24 @@ export default {
     };
   },
   methods: {
-    onStartDrag() {
+    onStartDrag(event) {
+      event.preventDefault();
+
       window.addEventListener('mousemove', this.onMouseMove);
       window.addEventListener('touchmove', this.onMouseMove);
-      window.addEventListener('mouseup', this.onStopDrag.bind(this), { once: true });
-      window.addEventListener('touchend', this.onStopDrag.bind(this), { once: true });
-      window.addEventListener('mouseleave', this.onStopDrag.bind(this), { once: true });
-      window.addEventListener('contextmenu', this.onStopDrag.bind(this), { once: true });
+      window.addEventListener('mouseup', this.onStopDrag, {once: true});
+      window.addEventListener('touchend', this.onStopDrag, {once: true});
+      window.addEventListener('touchcancel', this.onStopDrag, {once: true});
+      window.addEventListener('mouseleave', this.onStopDrag, {once: true});
+      window.addEventListener('contextmenu', this.onStopDrag, {once: true});
     },
     onStopDrag() {
       window.removeEventListener('mousemove', this.onMouseMove);
+      window.removeEventListener('touchmove', this.onMouseMove);
     },
     onMouseMove(event) {
+      event.preventDefault();
+
       let { clientX } = (event.touches || [])[0] || event;
       let {
         left,

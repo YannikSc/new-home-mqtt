@@ -118,6 +118,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   padding: 1.25em 0 1.25em 1.25em;
+  margin-bottom: 1.25em;
 }
 
 .dashboard-view--group {
