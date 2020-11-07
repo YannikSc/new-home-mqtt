@@ -1,70 +1,84 @@
 <template>
-  <el-row>
-    <el-col v-bind="main">
-      <h1>
-        <trans string="app.shortcuts.title"/>
-        <Plus class="icon--plus" @click="onAddShortcut" v-if="!mqtt.isHooked()"/>
-        <Cancel class="icon--cancel" @click="onCancelShortcut" v-if="mqtt.isHooked()"/>
-      </h1>
+  <div>
+    <el-row>
+      <el-col v-bind="main">
+        <h1>
+          <trans string="app.shortcuts.title"/>
+          <ArrowDown @click="hideModal = false" v-if="hideModal && events.length > 0"/>
+        </h1>
 
-      <el-row class="apps--list">
-        <el-col class="card--wrapper" v-for="(data, name) in shortcutList" v-bind="cards">
-          <el-card @click="onClickCard(data)">
-            <div class="icon--square">
-              <div class="icon--wrap">
-                <Link class="app--icon"/>
+        <el-row class="apps--list">
+          <el-col class="card--wrapper" v-for="(data, name) in shortcutList" v-bind="cards">
+            <el-card @click="onClickCard(data)">
+              <div class="icon--square">
+                <div class="icon--wrap">
+                  <Link class="app--icon"/>
+                </div>
               </div>
-            </div>
-            <span>{{ name }}</span>
-          </el-card>
-        </el-col>
-      </el-row>
+              <span>{{ name }}</span>
+            </el-card>
+          </el-col>
+        </el-row>
 
-      <AppModal :modal-shown="saveModal" @modal-close="onModalClose"
-                @modal-cancel="onModalClose"
-                @modal-submit="onModalSubmit">
-        <template v-slot:title>
-          <trans string="app.shortcuts.title_new"/>
-        </template>
-        <template v-slot:default>
-          <el-form>
-            <el-form-item>
-              <template v-slot:label><trans string="app.shortcuts.modal.shortcut_name.text"/></template>
-              <el-input v-model="shortcutName"/>
-            </el-form-item>
+        <AppModal :modal-shown="events.length > 0 && !hideModal" @modal-close="onHideModal"
+                  @modal-cancel="onModalClose"
+                  @modal-submit="onModalSubmit">
+          <template v-slot:title>
+            <trans string="app.shortcuts.title_new"/>
+          </template>
+          <template v-slot:default>
+            <el-form>
+              <el-form-item>
+                <template v-slot:label>
+                  <trans string="app.shortcuts.modal.shortcut_name.text"/>
+                </template>
+                <el-input v-model="shortcutName"/>
+              </el-form-item>
 
-            <el-form-item>
-              <p>
-                <trans string="app.shortcuts.modal.shortcut_events.text"/>
-              </p>
+              <el-form-item>
+                <p>
+                  <trans string="app.shortcuts.modal.shortcut_events.text"/>
+                </p>
 
-              <el-collapse>
-                <el-collapse-item v-for="(mqttEvent, index) in events">
-                  <template v-slot:title>
-                    <el-button class="button--delete" type="danger" icon="el-icon-delete" circle
-                               @click="deleteEvent(index, $event)" size="mini"/>
-                    <p>
-                      Topic: {{ mqttEvent.topic }}
-                    </p>
-                  </template>
-                  <el-collapse-item :title="Translate('app.shortcuts.modal.shortcut_payload.text')">
-                    <el-input type="textarea" v-model="mqttEvent.payload"></el-input>
+                <el-collapse>
+                  <el-collapse-item v-for="(mqttEvent, index) in events">
+                    <template v-slot:title>
+                      <el-button class="button--delete" type="danger" icon="el-icon-delete" circle
+                                 @click="deleteEvent(index, $event)" size="mini"/>
+                      <p>
+                        Topic: {{ mqttEvent.topic }}
+                      </p>
+                    </template>
+                    <el-collapse-item :title="Translate('app.shortcuts.modal.shortcut_payload.text')">
+                      <el-input type="textarea" v-model="mqttEvent.payload"></el-input>
+                    </el-collapse-item>
+                    <el-checkbox v-model="mqttEvent.options.retain">
+                      <trans string="app.shortcuts.modal.shortcut_retain.text"/>
+                    </el-checkbox>
                   </el-collapse-item>
-                  <el-checkbox v-model="mqttEvent.options.retain">
-                    <trans string="app.shortcuts.modal.shortcut_retain.text"/>
-                  </el-checkbox>
-                </el-collapse-item>
-              </el-collapse>
-            </el-form-item>
-          </el-form>
-        </template>
-      </AppModal>
-    </el-col>
-  </el-row>
+                </el-collapse>
+              </el-form-item>
+            </el-form>
+          </template>
+        </AppModal>
+      </el-col>
+    </el-row>
+
+    <el-row>
+      <el-col v-bind="main">
+        <h1>App
+          <el-button @click="resetComponent" icon="el-icon-s-home" circle plain/>
+        </h1>
+      </el-col>
+    </el-row>
+
+    <component :is="activeComponent" @set-active-component="setActiveComponent" v-bind="componentData"/>
+  </div>
 </template>
 
 <script>
-import { Cancel, Link, Minus, Plus } from 'mdue';
+import { markRaw } from '@vue/reactivity';
+import { Cancel, Link, Minus, ArrowDown } from 'mdue';
 import { Translate } from '../../service/Translation.js';
 import { cards, main } from '../../Sizes.js';
 import AppInput from '../atoms/AppInput.vue';
@@ -83,57 +97,51 @@ export default {
     AppInput,
     AppModal,
     AppContainer,
-    Plus,
+    ArrowDown,
     Cancel,
     Link,
     Minus,
   },
   emits: ['set-active-component'],
   inject: ['mqtt', 'shortcuts'],
+  provide() {
+    return {
+      mqtt: {
+        subscribe: console.log,
+        unsubscribe: console.log,
+        publish: this.onPublished.bind(this),
+      },
+    };
+  },
   data() {
     const data = {
       shortcutName: '',
-      saveModal: false,
       Translate,
       shortcutList: [],
       events: [],
+      activeComponent: markRaw(AppListingView),
+      componentData: {},
+      hideModal: false,
       cards,
       main,
     };
 
     this.shortcuts.list().then((shortcuts) => this.shortcutList = shortcuts);
 
-    if (this.mqtt.isHooked() && this.$attrs.saveModal && this.$attrs.events) {
-      data['saveModal'] = this.$attrs.saveModal;
-      data['events'] = this.$attrs.events;
-    }
-
     return data;
   },
   methods: {
-    onAddShortcut() {
-      let events = [];
-      this.mqtt.setHook(this.onPublished.bind(this, events));
-
-      this.$emit('set-active-component', { contentComponent: AppListingView });
-    },
-
-    onCancelShortcut() {
-      this.mqtt.unsetHook();
-      this.$forceUpdate();
+    onHideModal() {
+      this.hideModal = true;
     },
 
     onModalClose() {
-      this.mqtt.unsetHook();
-      this.saveModal = false;
       this.events = [];
     },
 
     onModalSubmit() {
-      this.mqtt.unsetHook();
       this.shortcuts.add(this.shortcutName, this.events);
       this.shortcuts.list().then((shortcuts) => this.shortcutList = shortcuts);
-      this.saveModal = false;
       this.events = [];
 
       this.$forceUpdate();
@@ -144,18 +152,8 @@ export default {
       this.events.splice(index, 1);
     },
 
-    onPublished(events, topic, payload, options) {
-      if (events.length <= 0) {
-        this.$emit('set-active-component', {
-          contentComponent: 'AppShortcutsView',
-          data: {
-            events: events,
-            saveModal: true,
-          },
-        });
-      }
-
-      events.push({
+    onPublished(topic, payload, options) {
+      this.events.push({
         topic,
         payload,
         options,
@@ -173,6 +171,19 @@ export default {
         this.mqtt.publish(topic, payload, options);
       }
     },
+
+    setActiveComponent({
+      contentComponent,
+      data,
+    }) {
+      this.activeComponent = contentComponent;
+      this.componentData = data;
+    },
+
+    resetComponent() {
+      this.activeComponent = AppListingView;
+      this.componentData = {};
+    },
   },
 };
 </script>
@@ -181,14 +192,6 @@ export default {
 h1 {
   display: flex;
   justify-content: space-between;
-}
-
-.icon--plus {
-  color: var(--color--success-main);
-}
-
-.icon--cancel {
-  color: var(--color--error-main);
 }
 
 .button--delete {
