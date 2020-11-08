@@ -31,7 +31,6 @@
         "iot",
         "vue"
     ],
-    "type": "module",
     "author": "Yannik_Sc",
     "license": "MIT",
     "bugs": {
