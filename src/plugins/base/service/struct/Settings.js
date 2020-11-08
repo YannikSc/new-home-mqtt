@@ -1,5 +1,3 @@
-import settings from '/public/settings.js';
-
 export class Settings {
     /**
      * @type {string}
@@ -19,7 +17,7 @@ export class Settings {
     /**
      * @return {Settings}
      */
-    static fromRawSettings() {
+    static fromRawSettings(settings) {
         return new Settings(
             settings['settings.mqtt_url'],
             settings['settings.mqtt_user'],

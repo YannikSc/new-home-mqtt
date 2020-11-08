@@ -1,5 +1,7 @@
 # New Home MQTT
 
+// TODO: Rewrite with es modules (probably without Vue then)
+
 A New Home UI for MQTT
 
 The UI is made to house apps which are communicating with a MQTT broker.

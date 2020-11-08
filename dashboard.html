@@ -9,6 +9,13 @@
 <body>
   <div id="app"></div>
   <script src="/vendor/mqtt.min.js"></script>
-  <script type="module" src="/src/dashboard/main.js"></script>
+
+  <script type="module">
+      import main from '/src/dashboard/main.js';
+      import settings from '/settings.js';
+      import plugins from '/src/plugins.js';
+
+      main(plugins, settings);
+  </script>
 </body>
 </html>

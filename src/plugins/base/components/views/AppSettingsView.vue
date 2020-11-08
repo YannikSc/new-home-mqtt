@@ -50,9 +50,9 @@ export default {
     AppButton,
   },
   inject: ['backend'],
-  data() {
+  data(settings) {
     return {
-      settings: Settings.fromRawSettings(),
+      settings: Settings.fromRawSettings(settings),
       Translate,
       colMain: main,
     };

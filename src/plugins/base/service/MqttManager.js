@@ -1,5 +1,3 @@
-import { Settings } from './struct/Settings.js';
-
 /**
  * @param {string} topic
  * @returns {RegExp}
@@ -168,7 +166,3 @@ export class MqttManager {
         }
     }
 }
-
-const settings = Settings.fromRawSettings();
-
-export const DefaultMqttManager = new MqttManager(settings.mqttHost, settings.mqttUsername, settings.mqttPassword);

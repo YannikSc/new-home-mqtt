@@ -1,5 +1,3 @@
-import { DefaultBackendGateway } from './BackendGateway.js';
-
 export class ShortcutManager {
     /**
      * @type {BackendGateway}
@@ -25,5 +23,3 @@ export class ShortcutManager {
         await this.backendGateway.deleteShortcut(shortcutName);
     }
 }
-
-export default new ShortcutManager(DefaultBackendGateway);

@@ -17,11 +17,11 @@ import AppListingView from './components/views/AppListingView.vue';
 import AppSettingsView from './components/views/AppSettingsView.vue';
 import AppShortcutsView from './components/views/AppShortcutsView.vue';
 import AppManager from './service/AppManager';
-import { DefaultBackendGateway } from './service/BackendGateway.js';
+import { BackendGateway } from './service/BackendGateway.js';
 import { DefaultDeviceManager } from './service/DeviceManager.js';
 import { DefaultGroupTypeManager } from './service/GroupTypeManager.js';
-import { DefaultMqttManager } from './service/MqttManager.js';
-import ShortcutManager from './service/ShortcutManager.js';
+import { MqttManager } from './service/MqttManager.js';
+import { ShortcutManager } from './service/ShortcutManager.js';
 import App from './service/struct/App';
 import { GroupItemType } from './service/struct/GroupItemType.js';
 import Translation from './service/Translation';
@@ -38,7 +38,7 @@ function addApps(apps) {
 }
 
 /**
- * @param {AppManager}apps
+ * @param {AppManager} apps
  * @param {MqttManager} mqtt
  * @param {App<Element>} app
  */
@@ -87,42 +87,59 @@ function addGroupItemTypes(groupItemTypeManager) {
     );
 }
 
+function registerComponents(app, settings) {
+    AppSettingsView.data = AppSettingsView.data.bind(AppSettingsView, settings);
+
+    app.component('app-header', AppHeader);
+    app.component('app-menu', AppMenu);
+    app.component('app-content', AppContent);
+    app.component('app-default-view', AppListingView);
+    app.component('trans', AppString);
+    app.component('AppListingView', AppListingView);
+    app.component('AppSettingsView', AppSettingsView);
+    app.component('AppShortcutsView', AppShortcutsView);
+    app.component('AppDashboardEditor', AppDashboardEditor);
+    app.component('AppDashboardDetail', AppDashboardDetail);
+    app.component('GroupItemTypeButton', GroupItemTypeButton);
+    app.component('GroupItemTypeButtonEditor', GroupItemTypeButtonEditor);
+    app.component('GroupItemTypeSlider', GroupItemTypeSlider);
+    app.component('GroupItemTypeSliderEditor', GroupItemTypeSliderEditor);
+    app.component('GroupItemTypeSwitch', GroupItemTypeSwitch);
+    app.component('GroupItemTypeSwitchEditor', GroupItemTypeSwitchEditor);
+    app.component('GroupItemTypeStatus', GroupItemTypeStatus);
+    app.component('GroupItemTypeStatusEditor', GroupItemTypeStatusEditor);
+}
+
 export default {
     /**
      * @param {App<Element>} app
      */
-    install(app) { // eslint-disable-line max-statements
+    install(app, settings) { // eslint-disable-line max-statements
         Strings(Translation);
 
+        const mqttManager = new MqttManager(
+            settings['settings.mqtt_url'],
+            settings['settings.mqtt_user'],
+            settings['settings.mqtt_pass'],
+        );
+        const backend = new BackendGateway({
+            url: settings['settings.backend_url'],
+            username: settings['settings.backend_user'],
+            password: settings['settings.backend_pass'],
+        });
+
         addApps(AppManager);
-        addAppListener(AppManager, DefaultMqttManager, app);
+        addAppListener(AppManager, mqttManager, app);
         addGroupItemTypes(DefaultGroupTypeManager);
 
         app.provide('translation', Translation);
         app.provide('apps', AppManager);
-        app.provide('mqtt', DefaultMqttManager);
-        app.provide('shortcuts', ShortcutManager);
-        app.provide('backend', DefaultBackendGateway);
+        app.provide('mqtt', mqttManager);
+        app.provide('shortcuts', new ShortcutManager(backend));
+        app.provide('backend', backend);
         app.provide('group_items', DefaultGroupTypeManager);
         app.provide('devices', DefaultDeviceManager);
 
-        app.component('app-header', AppHeader);
-        app.component('app-menu', AppMenu);
-        app.component('app-content', AppContent);
-        app.component('app-default-view', AppListingView);
-        app.component('trans', AppString);
-        app.component('AppListingView', AppListingView);
-        app.component('AppSettingsView', AppSettingsView);
-        app.component('AppShortcutsView', AppShortcutsView);
-        app.component('AppDashboardEditor', AppDashboardEditor);
-        app.component('AppDashboardDetail', AppDashboardDetail);
-        app.component('GroupItemTypeButton', GroupItemTypeButton);
-        app.component('GroupItemTypeButtonEditor', GroupItemTypeButtonEditor);
-        app.component('GroupItemTypeSlider', GroupItemTypeSlider);
-        app.component('GroupItemTypeSliderEditor', GroupItemTypeSliderEditor);
-        app.component('GroupItemTypeSwitch', GroupItemTypeSwitch);
-        app.component('GroupItemTypeSwitchEditor', GroupItemTypeSwitchEditor);
-        app.component('GroupItemTypeStatus', GroupItemTypeStatus);
-        app.component('GroupItemTypeStatusEditor', GroupItemTypeStatusEditor);
+        registerComponents(app, settings);
     },
 };

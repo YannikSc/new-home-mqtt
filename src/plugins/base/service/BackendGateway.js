@@ -1,4 +1,3 @@
-import settings from '/public/settings.js';
 import { Dashboard } from './struct/Dashboard.js';
 import { Group } from './struct/Group.js';
 
@@ -10,9 +9,9 @@ export class BackendGateway {
     password = '';
 
     constructor(config = {}) {
-        this.url = config.url || settings['settings.backend_url'];
-        this.username = config.username || settings['settings.backend_user'];
-        this.password = config.password || settings['settings.backend_pass'];
+        this.url = config.url;
+        this.username = config.username;
+        this.password = config.password;
     }
 
     /**
@@ -177,5 +176,3 @@ export class BackendGateway {
         });
     }
 }
-
-export const DefaultBackendGateway = new BackendGateway();
