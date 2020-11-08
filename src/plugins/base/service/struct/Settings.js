@@ -1,4 +1,4 @@
-import settings from '../../../../settings.js';
+import settings from '/public/settings.js';
 
 export class Settings {
     /**

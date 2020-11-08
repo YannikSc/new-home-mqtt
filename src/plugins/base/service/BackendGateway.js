@@ -1,4 +1,4 @@
-import settings from '../../../settings.js';
+import settings from '/public/settings.js';
 import { Dashboard } from './struct/Dashboard.js';
 import { Group } from './struct/Group.js';
 
